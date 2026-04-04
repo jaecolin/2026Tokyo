@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>東京家族旅遊全能手冊V4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 隱藏捲軸但保持可滾動 */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 補足 React tailwindcss-animate 的動畫效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInBottom {
+            from { transform: translateY(32px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .animation-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .animation-slide-in-right {
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+        .animation-slide-in-bottom {
+            animation: slideInBottom 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pb-28 min-h-screen">
+
+    <!-- Top Header -->
+    <header class="bg-indigo-900 text-white px-6 py-8 rounded-b-[40px] shadow-2xl sticky top-0 z-50">
+        <h1 class="text-2xl font-black tracking-tight flex items-center gap-2">
+            TOKYO 2026 <i data-lucide="plane" class="w-6 h-6 rotate-45"></i>
+        </h1>
+        <p class="text-[10px] text-indigo-300 font-black mt-1 uppercase tracking-widest">Luxury Family Guide V4.0</p>
+    </header>
+
+    <!-- Main Tab Nav -->
+    <div class="flex overflow-x-auto gap-4 p-6 scrollbar-hide sticky top-[80px] bg-slate-50/80 backdrop-blur-md z-40" id="nav-container">
+        <!-- 動態產生按鈕 -->
+    </div>
+
+    <!-- Content Body -->
+    <main class="px-6 max-w-lg mx-auto" id="main-content">
+        <!-- 動態內容渲染區域 -->
+    </main>
+
+    <!-- Event Detail Pop-up -->
+    <div id="modal-container" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md animation-fade-in">
+        <!-- 彈窗內容 -->
+    </div>
+
+    <!-- Floating Action Bar -->
+    <footer class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-white/90 backdrop-blur-xl border border-slate-100 p-4 rounded-[32px] shadow-2xl flex justify-between items-center z-40">
+        <div class="flex gap-4 items-center">
+            <div class="bg-indigo-50 p-2 rounded-xl">
+                <i data-lucide="heart" class="w-5 h-5 text-indigo-600 fill-indigo-600"></i>
+            </div>
+            <div>
+                <p class="text-[8px] font-black text-slate-300 uppercase leading-none">Family Status</p>
+                <p class="text-xs font-black text-slate-700 leading-none mt-1">快樂旅途中</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="bg-slate-100 text-slate-400 p-3 rounded-2xl">
+                <i data-lucide="home" class="w-4 h-4"></i>
+            </button>
+            <button onclick="setActiveTab('shopping')" class="bg-emerald-600 text-white px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-emerald-100">我的清單</button>
+        </div>
+    </footer>
+
+    <script>
+        // 資料設定
+        const itineraryData = [
+            {
+                date: "6/03 (三)", title: "抵達與接風之夜", summary: "班機抵達 ➔ 包車直達希爾頓 ➔ 大倉日式晚餐",
+                events: [
+                    { time: "09:30", loc: "台中機場", title: "起飛前往東京", detail: "搭乘班機前往日本。確認每人身上有少量日幣現金。", next: "尋找入境大廳接機人員。", trans: "飛機", tips: "航程約 3-4 小時，可讓小孩在飛機上稍作午睡。" },
+                    { time: "14:30", loc: "成田機場", title: "包車前往希爾頓", detail: "9 人座 Alphard 專車直達飯店門口。車程約 70 分鐘。", next: "辦理入住並領取假期套票 (VP) 包。", trans: "包車", shopping: "飯店內 Lawson：明治鮮乳、季節限定水果軟糖、長輩愛的 EVE 止痛藥（備用）。" },
+                    { time: "18:00", loc: "大倉飯店「羽衣」", title: "日式會席晚餐", detail: "極致安靜與服務，最適合長輩的第一餐。", next: "回希爾頓休息，準備明日衝陸地。", trans: "步行", food: "必吃：特選握壽司、天婦羅定食、季節會席料理。" }
+                ]
+            },
+            {
+                date: "6/04 (四)", title: "迪士尼陸地經典日", summary: "維尼/巴斯快速通關 ➔ 水晶宮午餐 ➔ 美女與野獸 ➔ 電子大遊行",
+                events: [
+                    { time: "09:00", loc: "迪士尼陸地", title: "正式入園", detail: "九點進場。行李已轉運至 FS 飯店。免排美女與野獸（預約下午）。", next: "直衝明日樂園區玩維尼。", trans: "單軌電車", strategy: "入園第一時間 APP 抽『40週年優先通行券』玩怪獸電力公司。" },
+                    { time: "10:00", loc: "夢幻樂園", title: "小熊維尼獵蜜記", detail: "使用 VP 設施券，全家一起坐蜂蜜罐冒險。", next: "步行至明日樂園玩巴斯。", trans: "步行", shopping: "維尼獵蜜記商店：蜂蜜噴霧、維尼造型抱枕、蜂蜜鐵盒餅乾。" },
+                    { time: "12:30", loc: "水晶宮餐廳", title: "午餐預約席", detail: "室內自助餐。長輩可充分休息，小孩愛吃米奇造型餐點。", next: "前往城堡後方看秀或逛商店。", trans: "步行", food: "必吃：米奇造型鬆餅（若外面有開）、水晶宮期間限定甜點。" },
+                    { time: "15:00", loc: "美女與野獸", title: "城堡奇緣 (VP)", detail: "使用保障名額直接進場，感受浪漫音樂與旋轉咖啡杯。", next: "前往觀賞區佔位 (VP 席不用提早)。", trans: "步行", shopping: "村莊商店：野獸造型披肩、貝兒玫瑰花LED裝飾。" },
+                    { time: "18:30", loc: "小城廣場", title: "電子大遊行 (VP)", detail: "VP 席位，15 分鐘前抵達即可。視野極佳。", next: "搭車前往 FS 飯店辦理入住。", trans: "單軌電車" }
+                ]
+            },
+            {
+                date: "6/05 (五)", title: "海洋夢幻泉鄉攻略", summary: "FS 新園區暢玩 ➔ 艾倫戴爾午餐 ➔ 爵士看秀 ➔ 水上秀",
+                events: [
+                    { time: "09:00", loc: "夢幻泉鄉 (FS)", title: "Magic Pass 神卡日", detail: "無限次通關冰雪奇緣、彼得潘、樂佩。不用搶 DPA。", next: "前往艾倫戴爾城堡。", trans: "步行", shopping: "Fantasy Springs Gifts：新園區標誌巧克力鐵盒、艾莎水藍色髮飾。" },
+                    { time: "12:30", loc: "艾倫戴爾宴會", title: "冰雪奇緣午餐", detail: "在精緻的城堡大廳用餐，感受艾倫戴爾氣氛。", next: "搭渡輪前往美國海濱。", trans: "渡輪", food: "必吃：艾倫戴爾皇室牛肉派、海鮮巧達濃湯。" },
+                    { time: "15:00", loc: "百老匯劇場", title: "動感大樂團 (BBB)", detail: "室內看秀吹冷氣。爵士樂與米奇打鼓表演。VP 預約完成。", next: "回 FS 飯店休息或採買達菲。", trans: "步行", shopping: "McDuck's (史高治百貨)：達菲全系列、玲娜貝兒最新吊飾。" },
+                    { time: "18:10", loc: "FS 餐廳", title: "飯店晚餐 Buffet", detail: "回飯店享用奢華晚餐，避開園區人潮。", next: "前往港灣區看水上表演。", trans: "步行", food: "必吃：現切烤牛肉、哈密瓜蛋糕、FS 限定小甜點。" },
+                    { time: "19:30", loc: "地中海港灣", title: "Believe! 水上秀", detail: "VP 專屬區觀賞。震撼噴泉與投影。", next: "回房享受飯店設施。", trans: "步行" }
+                ]
+            },
+            {
+                date: "6/06 (六)", title: "海洋 ➔ 淺草移師", summary: "FS 最後衝刺 ➔ 包車前往淺草 ➔ 壽喜燒老店",
+                events: [
+                    { time: "10:00", loc: "夢幻泉鄉", title: "最後巡禮", detail: "再次利用 Magic Pass 玩冰雪奇緣。兌換 VP 贈品。", next: "飯店退房集合。", trans: "步行", shopping: "必領：VP 贈品 (原創禮品)、Popcorn 桶。" },
+                    { time: "14:30", loc: "FS 飯店門口", title: "包車前往淺草", detail: "9 人座 Alphard 舒適直達淺草飯店。長輩小孩可補眠。", next: "放行李、飯店休息 30 分鐘。", trans: "包車" },
+                    { time: "17:00", loc: "淺草雷門", title: "淺草寺參拜", detail: "看夜間點燈，人潮較少。拍雷門大燈籠。", next: "步行前往今半。", trans: "步行", shopping: "仲見世通：舟和地瓜羊羹、手作仙貝、人形燒。" },
+                    { time: "19:00", loc: "淺草今半", title: "極致壽喜燒", detail: "長輩最愛的頂級黑毛和牛壽喜燒。預約完成。", next: "回房休息。", trans: "步行", food: "必吃：黑毛和牛壽喜燒、蛋液拌肉、和牛佃煮。" }
+                ]
+            },
+            {
+                date: "6/07 (日)", title: "東京地標巡禮", summary: "皇居二重橋 ➔ 築地壽司 ➔ 墨田水族館 ➔ 晴空塔夜景",
+                events: [
+                    { time: "09:30", loc: "皇居外苑", title: "二重橋拍照", detail: "計程車直接載到二重橋前，體力損耗極低。", next: "計程車前往築地。", trans: "計程車" },
+                    { time: "11:30", loc: "築地市場", title: "日式壽司午餐", detail: "預約制餐廳。長輩小孩坐著吃，不站食。", next: "計程車前往晴空塔。", trans: "計程車", food: "必吃：大腹鮪魚握壽司、築地山長玉子燒。" },
+                    { time: "14:30", loc: "墨田水族館", title: "企鵝與金魚展", detail: "位於晴空塔 5 樓。室內冷氣充足，沙發多。", next: "登塔觀景。", trans: "電梯", shopping: "水族館店：金魚圖騰手帕、企鵝長抱枕。" },
+                    { time: "17:30", loc: "晴空塔", title: "展望台夕陽", detail: "預約 17:30 登塔。看東京鐵塔與日落。", next: "商場用餐與藥妝採買。", trans: "電梯", shopping: "Solamachi：New York Perfect Cheese、Press Butter Sand、松本清藥妝。" }
+                ]
+            },
+            {
+                date: "6/08 (一)", title: "最後採買與歸途", summary: "觀景台俯瞰 ➔ 道具街驚喜 ➔ 班機回台中",
+                events: [
+                    { time: "09:30", loc: "淺草觀光中心", title: "8F 觀景台", detail: "免費俯瞰晴空塔與淺草全景。有電梯。", next: "計程車前往合羽橋。", trans: "計程車" },
+                    { time: "10:30", loc: "合羽橋", title: "食物模型街", detail: "參觀超逼真模型。買些有趣紀念品。", next: "回淺草午餐。", trans: "計程車", shopping: "必買：壽司鑰匙圈、逼真生吐司時鐘。" },
+                    { time: "12:00", loc: "淺草區", title: "最後日式午餐", detail: "推薦：淺草釜飯。飯後檢查行李與護照。", next: "飯店門口等候包車。", trans: "步行", food: "必吃：五目釜飯、炸蝦蕎麥麵。" },
+                    { time: "13:00", loc: "淺草飯店", title: "包車赴機場", detail: "預估 14:00 抵達機場辦理報到。班機 15:30 起飛。", next: "抵達機場最後免稅店補貨。", trans: "包車", shopping: "免稅店：東京芭娜娜 (比卡丘版)、ROYCE 生巧克力。" }
+                ]
+            }
+        ];
+
+        const shoppingGuideData = [
+            { category: "迪士尼限定", items: ["Fantasy Springs 標誌巧克力", "艾莎/安娜水藍色限定商品", "達菲系列絨毛玩偶 (海洋限定)", "VP 假期套票原創非賣品"] },
+            { category: "甜點伴手禮", items: ["New York Perfect Cheese (晴空塔/機場)", "Press Butter Sand 焦糖夾心餅", "舟和地瓜羊羹 (淺草老店)", "Press Butter Sand 季節限定版"] },
+            { category: "長輩實用類", items: ["茅乃舍高湯包 (無添加)", "日式飯友/香鬆", "ROIHI 溫感痠痛貼布 (小圓貼)", "蒸氣眼罩 & 喉嚨噴霧"] },
+            { category: "小孩驚喜類", items: ["合羽橋食物模型鑰匙圈", "墨田水族館企鵝抱枕", "迪士尼爆米花桶 (記得領回台)", "卡通圖案手帕"] }
+        ];
+
+        const preFlightCheck = [
+            "護照 (確認效期 6 個月以上) & 電子機票截圖",
+            "Disney VP 實體券包 (非常重要！不可丟失)",
+            "VJW (Visit Japan Web) 入境 QR Code 截圖",
+            "包車司機 Line/WhatsApp 聯繫方式",
+            "長輩高血壓/常備藥 & 小孩備用退燒藥",
+            "確認日本網卡/eSIM 已測試通暢",
+            "確認已下載 Disney Resort App 並登入",
+            "準備輕便嬰兒推車 (或確認現場租借點)"
+        ];
+
+        const returnCheck = [
+            "迪士尼 VP 原創贈品 (全數 6 份是否已換領？)",
+            "迪士尼爆米花桶 (房間附贈的兌換券是否已用？)",
+            "檢查飯店保險箱 (護照、首飾、重要文件)",
+            "清空飯店冰箱與浴室遺留物",
+            "戰利品裝箱完成 (確認無超過航空公司限重)",
+            "確認所有退稅收據已妥善收納於隨身包",
+            "確認包車司機回程接機時間無誤"
+        ];
+
+        // 應用程式狀態
+        let currentActiveTab = 'overview';
+        let currentSelectedEvent = null;
+
+        // 渲染導航列
+        function renderNav() {
+            const tabs = [
+                { id: 'overview', label: '行程總覽', checkPrefix: 'day-' },
+                { id: 'shopping', label: '採購清單', color: 'emerald' },
+                { id: 'pre-check', label: '行前檢查', color: 'indigo' },
+                { id: 'return-check', label: '回程檢查', color: 'amber' },
+                { id: 'nav-guide', label: '導覽指南', color: 'sky' }
+            ];
+
+            const navHtml = tabs.map(tab => {
+                const isActive = currentActiveTab === tab.id || (tab.checkPrefix && currentActiveTab.startsWith(tab.checkPrefix));
+                const activeClasses = isActive 
+                    ? `bg-${tab.color || 'indigo'}-600 text-white shadow-lg shadow-${tab.color || 'indigo'}-100` 
+                    : `bg-white text-slate-400`;
+                
+                return `<button onclick="setActiveTab('${tab.id}')" class="px-5 py-2 rounded-2xl whitespace-nowrap text-[10px] font-black uppercase tracking-widest transition-all ${activeClasses}">${tab.label}</button>`;
+            }).join('');
+
+            document.getElementById('nav-container').innerHTML = navHtml;
+        }
+
+        // 渲染主畫面
+        function renderContent() {
+            const mainContent = document.getElementById('main-content');
+            let html = '';
+
+            if (currentActiveTab === 'overview') {
+                html = `
+                    <div class="space-y-4 animation-fade-in">
+                        <h2 class="text-xl font-bold text-indigo-900 px-2">6 天行程概要</h2>
+                        ${itineraryData.map((day, idx) => `
+                            <div onclick="setActiveTab('day-${idx}')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between hover:border-indigo-300 transition-all cursor-pointer">
+                                <div class="flex gap-4 items-center">
+                                    <div class="bg-indigo-100 text-indigo-600 w-12 h-12 rounded-xl flex flex-col items-center justify-center font-bold">
+                                        <span class="text-[10px] uppercase">${day.date.split('(')[1].replace(')', '')}</span>
+                                        <span class="text-lg">${day.date.split('/')[1].split(' ')[0]}</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-sm">${day.title}</h4>
+                                        <p class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">${day.summary}</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="text-slate-300 w-4 h-4"></i>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentActiveTab === 'shopping') {
+                html = `
+                    <div class="space-y-6 animation-fade-in">
+                        <div class="bg-emerald-600 text-white p-6 rounded-3xl">
+                            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5"></i> 採購指南</h2>
+                            <p class="text-xs opacity-80 mt-1">精選必買推薦・可於手機勾選</p>
+                        </div>
+                        ${shoppingGuideData.map(cat => `
+                            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+                                <h3 class="font-bold text-emerald-700 text-sm mb-3 flex items-center gap-2">
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i> ${cat.category}
+                                </h3>
+                                <div class="space-y-2">
+                                    ${cat.items.map(item => `
+                                        <label class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl cursor-pointer">
+                                            <input type="checkbox" class="w-4 h-4 rounded text-emerald-600" />
+                                            <span class="text-xs text-slate-700">${item}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentActiveTab === 'pre-check') {
+                html = `
+                    <div class="space-y-4 animation-slide-in-right">
+                        <div class="bg-indigo-900 text-white p-6 rounded-3xl">
+                            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="calendar" class="w-5 h-5"></i> 行前清單</h2>
+                            <p class="text-xs opacity-70 mt-1">出發前請逐一核對</p>
+                        </div>
+                        <div class="bg-white rounded-3xl p-6 shadow-sm">
+                            ${preFlightCheck.map(item => `
+                                <label class="flex items-start gap-4 p-3 border-b border-slate-50 last:border-0 cursor-pointer">
+                                    <input type="checkbox" class="mt-1 w-5 h-5 rounded text-indigo-600" />
+                                    <span class="text-sm text-slate-700 leading-tight">${item}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentActiveTab === 'return-check') {
+                html = `
+                    <div class="space-y-4 animation-slide-in-right">
+                        <div class="bg-amber-500 text-white p-6 rounded-3xl">
+                            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5"></i> 回程必看</h2>
+                            <p class="text-xs opacity-90 mt-1">別讓美好回憶留下遺憾</p>
+                        </div>
+                        <div class="bg-white rounded-3xl p-6 shadow-sm">
+                            ${returnCheck.map(item => `
+                                <label class="flex items-start gap-4 p-3 border-b border-slate-50 last:border-0 cursor-pointer">
+                                    <input type="checkbox" class="mt-1 w-5 h-5 rounded text-amber-500" />
+                                    <span class="text-sm text-slate-700 leading-tight">${item}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentActiveTab === 'nav-guide') {
+                html = `
+                    <div class="space-y-6 animation-fade-in pb-10">
+                        <div class="bg-sky-700 text-white p-6 rounded-3xl">
+                            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="navigation" class="w-5 h-5"></i> 園區移動策略</h2>
+                            <p class="text-xs opacity-70 mt-1">針對長輩與幼童優化的動線</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-3xl shadow-sm border border-sky-50">
+                            <h3 class="font-bold text-sky-800 flex items-center gap-2"><i data-lucide="map" class="w-4 h-4"></i> 陸地 Land：節省體力法</h3>
+                            <div class="border-l-2 border-dashed border-sky-100 pl-4 py-2 mt-2 space-y-3">
+                                <p class="text-xs"><b>① 九點入園：</b> 專攻右側「明日樂園」。利用 VP 券玩維尼，省去長排隊。</p>
+                                <p class="text-xs"><b>② 午後移動：</b> 慢慢散步至城堡左側看秀。下午 3 點再回頭玩美女與野獸 (VP通關)。</p>
+                                <p class="text-xs"><b>③ 遊行位置：</b> 18:30 電子大遊行，VP 專屬席在城堡正前方或小城廣場，15 分鐘前抵達即可。</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-3xl shadow-sm border border-emerald-50">
+                            <h3 class="font-bold text-emerald-800 flex items-center gap-2"><i data-lucide="map" class="w-4 h-4"></i> 海洋 Sea：新園區核心法</h3>
+                            <div class="border-l-2 border-dashed border-emerald-100 pl-4 py-2 mt-2 space-y-3">
+                                <p class="text-xs"><b>① 新園區特權：</b> 飯店專屬入口直接進入「夢幻泉鄉」。早上主攻此區。</p>
+                                <p class="text-xs"><b>② 下午休整：</b> FS 離飯店極近，14:30 建議長輩小孩回房小憩。16:00 再出發。</p>
+                                <p class="text-xs"><b>③ 高效橫跨：</b> 從深處 (FS/失去河) 到大門口，請務必搭乘「渡輪」，省下 15 分鐘步行路程。</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentActiveTab.startsWith('day-')) {
+                const dayIdx = parseInt(currentActiveTab.split('-')[1]);
+                const day = itineraryData[dayIdx];
+                html = `
+                    <div class="space-y-6 animation-slide-in-bottom pb-10">
+                        <div class="flex items-center justify-between px-2">
+                            <div>
+                                <h2 class="text-3xl font-black text-indigo-900">${day.date.split(' ')[0]}</h2>
+                                <p class="text-slate-400 font-bold text-sm">${day.title}</p>
+                            </div>
+                            <button onclick="setActiveTab('overview')" class="text-[10px] font-black text-indigo-600 bg-indigo-50 px-3 py-2 rounded-full uppercase tracking-widest">返回總覽</button>
+                        </div>
+
+                        <div class="relative pl-8 space-y-8 before:content-[''] before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-indigo-100">
+                            ${day.events.map((event, i) => `
+                                <div class="relative group cursor-pointer" onclick="openModal(${dayIdx}, ${i})">
+                                    <div class="absolute -left-[33px] top-1 w-[16px] h-[16px] rounded-full border-4 border-white shadow-sm ring-2 ring-indigo-500 bg-indigo-500 z-10 transition-transform group-hover:scale-125"></div>
+                                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 transition-all group-hover:border-indigo-300 group-hover:shadow-md">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-[10px] font-black text-indigo-600 flex items-center gap-1">
+                                                <i data-lucide="clock" class="w-3 h-3"></i> ${event.time}
+                                            </span>
+                                            <span class="text-[10px] bg-slate-50 text-slate-400 px-2 py-0.5 rounded font-bold">${event.loc}</span>
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1">
+                                            ${event.title}
+                                            ${(event.food || event.shopping) ? `<i data-lucide="star" class="w-3 h-3 text-amber-400 fill-current"></i>` : ''}
+                                        </h3>
+                                        <div class="mt-3 flex items-center gap-2 text-[9px] text-slate-400 bg-slate-50 px-2 py-1.5 rounded-xl w-fit">
+                                            <i data-lucide="car" class="w-3 h-3"></i> 
+                                            <span>下一站：<b>${event.trans}</b></span>
+                                            <i data-lucide="arrow-right" class="w-2 h-2"></i>
+                                            <span class="truncate max-w-[120px]">${event.next}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            mainContent.innerHTML = html;
+            lucide.createIcons(); // 每次重繪後初始化圖標
+        }
+
+        // 頁籤切換邏輯
+        function setActiveTab(tabId) {
+            currentActiveTab = tabId;
+            renderNav();
+            renderContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 彈出視窗控制
+        function openModal(dayIdx, eventIdx) {
+            const event = itineraryData[dayIdx].events[eventIdx];
+            const modalContainer = document.getElementById('modal-container');
+            
+            modalContainer.innerHTML = `
+                <div class="bg-white rounded-[40px] w-full max-w-sm overflow-hidden shadow-2xl relative">
+                    <div class="bg-indigo-600 p-8 text-white">
+                        <button onclick="closeModal()" class="absolute top-6 right-6 bg-white/20 p-2 rounded-full leading-none w-8 h-8 flex items-center justify-center">✕</button>
+                        <span class="text-[10px] font-black opacity-60 uppercase flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> ${event.loc}</span>
+                        <h2 class="text-xl font-bold mt-1 leading-tight">${event.title}</h2>
+                    </div>
+                    
+                    <div class="p-8 space-y-6 max-h-[60vh] overflow-y-auto">
+                        <div>
+                            <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">行程詳情</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed font-medium">${event.detail}</p>
+                        </div>
+
+                        ${event.food ? `
+                            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                                <h4 class="text-[10px] font-black text-amber-700 flex items-center gap-2 mb-1"><i data-lucide="utensils" class="w-3 h-3"></i> 推薦美食</h4>
+                                <p class="text-xs text-amber-900 font-bold">${event.food}</p>
+                            </div>
+                        ` : ''}
+
+                        ${event.shopping ? `
+                            <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                                <h4 class="text-[10px] font-black text-emerald-700 flex items-center gap-2 mb-1"><i data-lucide="shopping-bag" class="w-3 h-3"></i> 推薦伴手禮</h4>
+                                <p class="text-xs text-emerald-900 font-bold">${event.shopping}</p>
+                            </div>
+                        ` : ''}
+
+                        ${event.strategy ? `
+                            <div class="bg-sky-50 p-4 rounded-2xl border border-sky-100">
+                                <h4 class="text-[10px] font-black text-sky-700 flex items-center gap-2 mb-1"><i data-lucide="navigation" class="w-3 h-3"></i> 移動策略</h4>
+                                <p class="text-xs text-sky-900 font-bold">${event.strategy}</p>
+                            </div>
+                        ` : ''}
+
+                        <div class="pt-4 border-t border-slate-100">
+                            <div class="flex justify-between items-center text-[10px] font-black text-slate-400 mb-2 uppercase">
+                                <span>下一步交通引導</span>
+                                <span class="text-indigo-600 font-bold">由 ${event.trans} 前往</span>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-2xl text-[11px] font-bold text-slate-700 leading-relaxed">
+                                ${event.next}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <button onclick="closeModal()" class="w-full bg-slate-900 text-white py-4 rounded-3xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-transform">關閉細節</button>
+                    </div>
+                </div>
+            `;
+            
+            modalContainer.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modalContainer = document.getElementById('modal-container');
+            modalContainer.classList.add('hidden');
+            modalContainer.innerHTML = '';
+        }
+
+        // 初始化
+        window.onload = () => {
+            renderNav();
+            renderContent();
+            lucide.createIcons();
+        };
+
+    </script>
+</body>
+</html>
