@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 東京三代同堂夢幻假期全手冊 V7.5</title>
+    <title>2026 東京三代同堂夢幻假期全手冊 V7.7</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -13,6 +13,7 @@
         
         body {
             font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 400;
         }
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
@@ -82,7 +83,7 @@
         <h1 class="text-4xl font-black tracking-tight flex items-center gap-3">
             TOKYO 2026 <i data-lucide="sparkles" class="w-8 h-8 text-[#C8A165]"></i>
         </h1>
-        <p class="text-base text-[#C8A165] font-black mt-2 uppercase tracking-widest">三代同堂夢幻假期全攻略 V7.5</p>
+        <p class="text-base text-[#C8A165] font-black mt-2 uppercase tracking-widest">三代同堂夢幻假期全攻略 V7.7</p>
     </header>
 
     <div class="flex overflow-x-auto gap-4 p-6 scrollbar-hide sticky top-[100px] bg-[#F9F7F2]/90 backdrop-blur-md z-40" id="nav-container">
@@ -100,7 +101,7 @@
                 <i data-lucide="heart" class="w-7 h-7 text-[#C8A165] fill-[#C8A165]" id="status-icon"></i>
             </div>
             <div>
-                <p class="text-sm font-black text-gray-400 uppercase leading-none" id="status-time">Family Status</p>
+                <p class="text-sm font-normal text-gray-400 uppercase leading-none" id="status-time">Family Status</p>
                 <p class="text-lg font-black text-[#2C4F3E] leading-none mt-2" id="status-text">載入中...</p>
             </div>
         </div>
@@ -116,9 +117,24 @@
             {
                 date: "6/03 (三)", title: "抵達與希爾頓接風", summary: "班機抵達搭乘包車，享用高級日式晚餐",
                 events: [
-                    { time: "14:30", loc: "成田機場", title: "包車前往希爾頓", detail: "九人座專車直達飯店門口。車程約七十分鐘，長輩可於車上休息。", trans: "包車", lat: 35.7719, lng: 140.3928 },
-                    { time: "16:30", loc: "希爾頓飯店", title: "辦理入住與休息", detail: "辦理入住並領取假期套票券包，確認未來三日設施券與飲料券。", trans: "步行", lat: 35.6279, lng: 139.8744 },
-                    { time: "18:00", loc: "大倉飯店", title: "日式會席晚餐", detail: "步行三分鐘即達。環境安靜寬敞，精緻日式會席料理非常適合為長輩接風。", trans: "步行", lat: 35.6262, lng: 139.8727 }
+                    { 
+                        time: "14:30", loc: "成田機場", title: "包車前往希爾頓", 
+                        detail: "九人座專車直達飯店門口。車程約七十分鐘，長輩可於車上休息。", 
+                        trans: "包車", lat: 35.7719, lng: 140.3928,
+                        mustEat: "機場限定生茶", souvenir: "無"
+                    },
+                    { 
+                        time: "16:30", loc: "希爾頓飯店", title: "辦理入住與休息", 
+                        detail: "辦理入住並領取假期套票券包，確認未來三日設施券與飲料券。", 
+                        trans: "步行", lat: 35.6279, lng: 139.8744,
+                        mustBuy: "迪士尼限定周邊 (飯店商店)", souvenir: "希爾頓限定小熊"
+                    },
+                    { 
+                        time: "18:00", loc: "大倉飯店", title: "日式會席晚餐", 
+                        detail: "步行三分鐘即達。環境安靜寬敞，精緻日式會席料理非常適合為長輩接風。", 
+                        trans: "步行", lat: 35.6262, lng: 139.8727,
+                        mustEat: "特上握壽司、天婦羅"
+                    }
                 ],
                 restaurants: [
                     { name: "大倉飯店 羽衣", desc: "精緻日式料理，長輩首選環境", lat: 35.6262, lng: 139.8727 }
@@ -127,71 +143,135 @@
             {
                 date: "6/04 (四)", title: "迪士尼陸地：經典之旅", summary: "野獸、杯麵、米奇秀、米妮與夜間遊行",
                 events: [
-                    { time: "08:30", loc: "希爾頓", title: "行李轉送與出發", detail: "將大行李交給櫃檯指名轉送夢幻泉鄉飯店。搭乘接駁車至單軌站。", trans: "接駁巴士+單軌", lat: 35.6279, lng: 139.8744 },
-                    { time: "09:30", loc: "夢幻樂園", title: "美女與野獸", detail: "【假期套票 VP】保證位。直接走快速通道，長輩免排隊。", trans: "步行", lat: 35.6329, lng: 139.8804, isVp: true },
-                    { time: "10:30", loc: "明日樂園", title: "杯麵的歡樂巡航", detail: "【假期套票 VP】就在隔壁，音樂動感，適合讓小女孩先嗨起來。", trans: "步行", lat: 35.6330, lng: 139.8810, isVp: true },
-                    { time: "11:30", loc: "世界市集旁", title: "水晶宮餐廳 (午餐)", detail: "【假期套票預約】Buffet 自助餐，適合全家各取所好。", trans: "步行", lat: 35.6332, lng: 139.8789, isVp: true },
-                    { time: "12:50", loc: "世界市集", title: "客製化雙任務", detail: "玩具小站下單 Tomica，隨即去隔壁剪影小舖排隊剪全家像。", trans: "步行", lat: 35.6328, lng: 139.8770 },
-                    { time: "14:00", loc: "歌舞基地", title: "米奇歡樂秀", detail: "【假期套票專屬席】室內大劇場看秀，長輩體力充電點。", trans: "步行", lat: 35.6320, lng: 139.8790, isVp: true },
-                    { time: "15:00", loc: "卡通城", title: "米妮時尚工作室", detail: "【假期套票 VP】與米妮拍照。結束後玩隔壁小熊維尼。", trans: "步行", lat: 35.6335, lng: 139.8820, isVp: true },
-                    { time: "17:20", loc: "世界市集", title: "外南街咖啡餐館", detail: "【假期套票預約】晚餐洋食。建議 18:45 離開，座位區就在門口。", trans: "步行", lat: 35.6325, lng: 139.8780, isVp: true },
-                    { time: "19:15", loc: "遊行路線", title: "電子大遊行", detail: "【假期套票觀賞位】坐在保留席悠閒看秀，不需提早佔位。", trans: "步行", lat: 35.6325, lng: 139.8800, isVp: true }
-                ],
-                restaurants: [
-                    { name: "水晶宮餐廳", desc: "豐富自助餐，全家體力站", lat: 35.6332, lng: 139.8789 }
+                    { 
+                        time: "09:30", loc: "夢幻樂園", title: "美女與野獸", 
+                        detail: "【假期套票 VP】保證位。直接走快速通道進入野獸城堡。", 
+                        trans: "步行", lat: 35.6329, lng: 139.8804, isVp: true,
+                        mustBuy: "貝兒玫瑰發光棒", mustEat: "樂園爆米花 (焦糖口味)"
+                    },
+                    { 
+                        time: "10:30", loc: "明日樂園", title: "杯麵的歡樂巡航", 
+                        detail: "【假期套票 VP】就在隔壁，音樂動感，適合讓小女孩先嗨起來。", 
+                        trans: "步行", lat: 35.6330, lng: 139.8810, isVp: true,
+                        mustEat: "杯麵造型漢堡", mustBuy: "杯麵頭飾"
+                    },
+                    { 
+                        time: "11:30", loc: "世界市集旁", title: "水晶宮餐廳 (午餐)", 
+                        detail: "【假期套票預約】Buffet 自助餐。推薦多吃新鮮蔬果補體力。", 
+                        trans: "步行", lat: 35.6332, lng: 139.8789, isVp: true,
+                        mustEat: "小點心拼盤"
+                    },
+                    { 
+                        time: "12:50", loc: "世界市集", title: "客製化雙任務", 
+                        detail: "玩具小站下單 Tomica，隨即去隔壁剪影小舖排隊剪全家像。", 
+                        trans: "步行", lat: 35.6328, lng: 139.8770,
+                        mustBuy: "客製化 Tomica 小車", souvenir: "全家側臉剪影畫"
+                    },
+                    { 
+                        time: "15:00", loc: "卡通城", title: "米妮時尚工作室", 
+                        detail: "【假期套票 VP】與米妮拍照。結束後玩隔壁小熊維尼。", 
+                        trans: "步行", lat: 35.6335, lng: 139.8820, isVp: true,
+                        mustBuy: "米妮大蝴蝶結髮箍", mustEat: "米奇鬆餅"
+                    },
+                    { 
+                        time: "17:20", loc: "世界市集", title: "外南街咖啡餐館", 
+                        detail: "【假期套票預約】晚餐洋食。此處氣氛悠閒，出餐稍慢。", 
+                        trans: "步行", lat: 35.6325, lng: 139.8780, isVp: true,
+                        mustEat: "米奇造型餐點"
+                    }
                 ]
             },
             {
                 date: "6/05 (五)", title: "海洋夢幻泉鄉與慶典", summary: "新園區三連發、渡輪、大樂動與水上秀",
                 events: [
-                    { time: "07:50", loc: "夢幻泉鄉飯店", title: "飯店早餐", detail: "於 FS 餐廳享用早餐。結束後從飯店專屬入口入園。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "09:30", loc: "夢幻泉鄉", title: "冰雪奇緣+彼得潘+樂佩", detail: "【假期套票 VP】集中攻略新園區。都在飯店門口，動線極短。", trans: "步行", lat: 35.6280, lng: 139.8845, isVp: true },
-                    { time: "13:20", loc: "艾倫戴爾城堡", title: "皇家宴會午餐", detail: "【假期套票預約】在冰雪奇緣城堡內用餐，女孩變身小公主。", trans: "步行", lat: 35.6285, lng: 139.8840, isVp: true },
-                    { time: "14:40", loc: "海洋航線", title: "跨區：渡輪巡航", detail: "搭渡輪從新園區移動至地中海港灣。坐著吹風 15 分鐘，長輩激推。", trans: "渡輪", lat: 35.6250, lng: 139.8860 },
-                    { time: "15:40", loc: "百老匯劇場", title: "大樂動 (BBB)", detail: "【假期套票專屬席】看米奇爵士鼓秀。從發現港搭電車直達門口。", trans: "高架電車", lat: 35.6245, lng: 139.8855, isVp: true },
-                    { time: "18:10", loc: "夢幻泉鄉飯店", title: "飯店晚餐", detail: "【假期套票預約】回飯店用餐。飯後長輩可立即回房休息。", trans: "步行", lat: 35.6275, lng: 139.8850, isVp: true },
-                    { time: "19:30", loc: "地中海港灣", title: "堅信！夢想之海", detail: "【假期套票觀賞位】震撼水上大秀，視覺滿分。", trans: "步行", lat: 35.6265, lng: 139.8865, isVp: true }
-                ],
-                restaurants: [
-                    { name: "艾倫戴爾宴會", desc: "冰雪城堡用餐，氛圍極佳", lat: 35.6285, lng: 139.8840 }
+                    { 
+                        time: "09:30", loc: "夢幻泉鄉", title: "安娜、彼得潘、樂佩", 
+                        detail: "【假期套票 VP】集中攻略新園區。都在飯店門口，動線極短。", 
+                        trans: "步行", lat: 35.6280, lng: 139.8845, isVp: true,
+                        mustBuy: "冰雪奇緣限定掛飾", mustEat: "奧樂夫造型小甜心"
+                    },
+                    { 
+                        time: "13:20", loc: "艾倫戴爾城堡", title: "皇家宴會午餐", 
+                        detail: "【假期套票預約】在城堡內用餐。推薦選擇靠窗位拍天燈區。", 
+                        trans: "步行", lat: 35.6285, lng: 139.8840, isVp: true,
+                        mustEat: "皇室牛肉派、艾倫戴爾甜點"
+                    },
+                    { 
+                        time: "14:40", loc: "海洋航線", title: "跨區：渡輪巡航", 
+                        detail: "搭渡輪跨區，此時段通常剛好能從水面看 25 週年迎賓秀。", 
+                        trans: "渡輪", lat: 35.6250, lng: 139.8860,
+                        mustEat: "海洋限定提拉米蘇冰淇淋"
+                    },
+                    { 
+                        time: "16:30", loc: "美國海濱", title: "25週年禮物與採買", 
+                        detail: "於劇場周邊兌換套票禮物，並購買 25 週年限定藍美石紀念瓶。", 
+                        trans: "步行", lat: 35.6245, lng: 139.8855,
+                        mustBuy: "25週年藍美石紀念瓶", souvenir: "套票限定吊飾"
+                    }
                 ]
             },
             {
                 date: "6/06 (六)", title: "海洋最後巡禮與轉移", summary: "玩具總動員、櫻花餐廳、包車前往淺草",
                 events: [
-                    { time: "08:15", loc: "海洋入口", title: "Happy Entry 特權", detail: "利用房客提早入園玩二刷彼得潘或樂佩，這時免排隊。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "10:00", loc: "夢幻泉鄉", title: "安娜與艾莎二刷", detail: "【假期套票 VP】飯店門口再玩一次，觀察更多科技細節。", trans: "步行", lat: 35.6280, lng: 139.8845, isVp: true },
-                    { time: "11:30", loc: "美國海濱", title: "玩具總動員", detail: "【假期套票 VP】週六人潮多，直接用券進入快速通道。", trans: "高架電車", lat: 35.6240, lng: 139.8850, isVp: true },
-                    { time: "13:30", loc: "美國海濱", title: "櫻花餐廳 (午餐)", detail: "【假期套票預約】就在設施隔壁！日式定食是長輩的救贖。", trans: "步行", lat: 35.6242, lng: 139.8848, isVp: true },
-                    { time: "15:00", loc: "地中海港灣", title: "最後採買與迎賓秀", detail: "慢慢往出口散步。之後回飯店領行李，準備出園。", trans: "步行", lat: 35.6260, lng: 139.8860 },
-                    { time: "16:30", loc: "舞濱", title: "包車前往淺草", detail: "搭乘九人座包車直達淺草飯店，避開地鐵人潮。", trans: "包車", lat: 35.7147, lng: 139.7966 },
-                    { time: "18:30", loc: "淺草今半", title: "和牛壽喜燒", detail: "百年老店。享用頂級黑毛和牛，慶祝順利入駐市區。", trans: "步行", lat: 35.7135, lng: 139.7930 }
-                ],
-                restaurants: [
-                    { name: "櫻花餐廳", desc: "美式碼頭邊的日式滋味", lat: 35.6242, lng: 139.8848 },
-                    { name: "淺草今半", desc: "頂級壽喜燒老店，長輩極致享受", lat: 35.7135, lng: 139.7930 }
+                    { 
+                        time: "11:30", loc: "美國海濱", title: "玩具總動員", 
+                        detail: "【假期套票 VP】週六人潮多，直接用券進入快速通道。", 
+                        trans: "高架電車", lat: 35.6240, lng: 139.8850, isVp: true,
+                        mustEat: "三眼怪麻糬", mustBuy: "胡迪/巴斯光年周邊"
+                    },
+                    { 
+                        time: "13:30", loc: "美國海濱", title: "櫻花餐廳 (午餐)", 
+                        detail: "【假期套票預約】日式定食。在充滿美式風格的碼頭享用和食。", 
+                        trans: "步行", lat: 35.6242, lng: 139.8848, isVp: true,
+                        mustEat: "炸蝦天婦羅定食、日式烤魚"
+                    },
+                    { 
+                        time: "18:30", loc: "淺草今半", title: "和牛壽喜燒", 
+                        detail: "百年老店。享用頂級黑毛和牛。店員會提供桌邊服務。", 
+                        trans: "步行", lat: 35.7135, lng: 139.7930,
+                        mustEat: "黑毛和牛壽喜燒、蛋飯"
+                    }
                 ]
             },
             {
                 date: "6/07 (日)", title: "東京地標地標巡禮", summary: "皇居照片、築地午餐、水族館與晴空塔",
                 events: [
-                    { time: "09:30", loc: "皇居外苑", title: "二重橋拍照", detail: "包車載到橋前。這是長輩必拍景點，減少步行負擔。", trans: "包車", lat: 35.6841, lng: 139.7525 },
-                    { time: "11:30", loc: "築地市場", title: "壽司午餐", detail: "預約制餐廳，長輩不排隊即可享用現流美食。", trans: "計程車", lat: 35.6655, lng: 139.7707 },
-                    { time: "14:30", loc: "墨田水族館", title: "室內水族館", detail: "冷氣充足全室內。適合小孩與長輩悠閒散步。", trans: "電梯", lat: 35.7100, lng: 139.8107 },
-                    { time: "17:30", loc: "晴空塔", title: "展望台夕陽", detail: "預約登塔。登高遠眺富士山與東京都全景。", trans: "電梯", lat: 35.7100, lng: 139.8107 }
-                ],
-                restaurants: [
-                    { name: "築地預約餐廳", desc: "免排隊的高級壽司體驗", lat: 35.6650, lng: 139.7700 }
+                    { 
+                        time: "09:30", loc: "皇居外苑", title: "二重橋拍照", 
+                        detail: "包車直達。風景莊嚴開闊。適合拍全家福大合照。", 
+                        trans: "包車", lat: 35.6841, lng: 139.7525,
+                        souvenir: "皇居限定菊花金幣"
+                    },
+                    { 
+                        time: "11:30", loc: "築地市場", title: "壽司午餐", 
+                        detail: "預約制餐廳。免排隊享用築地最新鮮的海味。", 
+                        trans: "計程車", lat: 35.6655, lng: 139.7707,
+                        mustEat: "大腹鮪魚壽司、海膽"
+                    },
+                    { 
+                        time: "17:30", loc: "晴空塔", title: "展望台夕陽", 
+                        detail: "登高遠眺。若能見度好，可看到美麗的富士山剪影。", 
+                        trans: "電梯", lat: 35.7100, lng: 139.8107,
+                        mustEat: "晴空塔限定 Banana 蛋糕", mustBuy: "晴空塔聯名杯"
+                    }
                 ]
             },
             {
-                date: "6/08 (一)", title: "文化巡禮與平安賦歸", summary: "展望台美景，道具街漫步，包車赴機場",
+                date: "6/08 (一)", title: "文化巡禮與平安賦歸", summary: "展望台美景，道具街散步，包車赴機場",
                 events: [
-                    { time: "10:00", loc: "淺草文化中心", title: "八樓展望台", detail: "登高拍攝淺草寺與晴空塔全景，風景極佳。", trans: "電梯", lat: 35.7108, lng: 139.7963 },
-                    { time: "11:00", loc: "合羽橋", title: "道具街散步", detail: "有趣的日式廚具與瓷器街。慢慢散步回飯店。", trans: "步行", lat: 35.7144, lng: 139.7885 },
-                    { time: "13:30", loc: "淺草飯店", title: "包車前往成田", detail: "專車前往機場。預計 15:00 抵達成田，準備辦理登機。", trans: "包車", lat: 35.7719, lng: 140.3928 }
-                ],
-                restaurants: []
+                    { 
+                        time: "10:00", loc: "淺草文化中心", title: "八樓展望台", 
+                        detail: "免門票。拍攝淺草寺「仲見世通」長廊與晴空塔的最佳地點。", 
+                        trans: "電梯", lat: 35.7108, lng: 139.7963,
+                        mustEat: "一樓咖啡廳抹茶"
+                    },
+                    { 
+                        time: "11:00", loc: "合羽橋", title: "道具街散步", 
+                        detail: "專賣廚具與食物模型。可以找找仿真度極高的美食掛飾。", 
+                        trans: "步行", lat: 35.7144, lng: 139.7885,
+                        mustBuy: "日式菜刀、精緻瓷盤", souvenir: "仿真食物模型"
+                    }
+                ]
             }
         ];
 
@@ -202,9 +282,9 @@
             const tabs = [
                 { id: 'overview', label: '行程總覽' },
                 { id: 'map', label: '地圖總覽' },
+                { id: 'shopping', label: '採購指南' },
                 { id: 'disney-safety', label: '長輩安全指南' },
                 { id: 'disney-move', label: '園區移動策略' },
-                { id: 'shopping', label: '採購指南' },
                 { id: 'pre-check', label: '行前清單' },
                 { id: 'return-check', label: '回程清單' }
             ];
@@ -238,12 +318,12 @@
                             <div onclick="setActiveTab('day-${idx}')" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 flex items-center justify-between hover:border-[#C8A165] transition-all cursor-pointer">
                                 <div class="flex gap-6 items-center">
                                     <div class="bg-[#F9F7F2] text-[#C8A165] w-20 h-20 rounded-2xl flex flex-col items-center justify-center font-bold">
-                                        <span class="text-sm uppercase">${day.date.split('(')[1].replace(')', '')}</span>
-                                        <span class="text-2xl">${day.date.split('/')[1].split(' ')[0]}</span>
+                                        <span class="text-sm font-black uppercase">${day.date.split('(')[1].replace(')', '')}</span>
+                                        <span class="text-2xl font-black">${day.date.split('/')[1].split(' ')[0]}</span>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-[#2C4F3E] text-xl">${day.title}</h4>
-                                        <p class="text-sm text-gray-500 mt-2">${day.summary}</p>
+                                        <h4 class="font-black text-[#2C4F3E] text-xl">${day.title}</h4>
+                                        <p class="text-sm font-normal text-gray-500 mt-2">${day.summary}</p>
                                     </div>
                                 </div>
                                 <i data-lucide="chevron-right" class="text-gray-300 w-8 h-8"></i>
@@ -263,18 +343,6 @@
                             `).join('')}
                         </div>
                         <div id="map-view" class="w-full h-[60vh] rounded-3xl z-0 shadow-lg border border-gray-200"></div>
-                        <div class="mt-6 p-6 bg-white rounded-3xl shadow-sm border border-gray-200">
-                             <div class="flex gap-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-[#2C4F3E] flex items-center justify-center text-white text-xs font-bold">景</div>
-                                    <span class="text-lg text-gray-600 font-bold">景點</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-[#C8A165] flex items-center justify-center text-white text-xs font-bold">食</div>
-                                    <span class="text-lg text-gray-600 font-bold">推薦食宿</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 `;
                 setTimeout(() => loadMapDay(0), 100);
@@ -283,40 +351,14 @@
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
                             <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="shield-check" class="w-8 h-8 text-[#C8A165]"></i> 長輩設施安全指南</h2>
-                            <p class="text-base text-gray-300 mt-2">守護長輩脊椎與心臟，輕鬆玩樂園</p>
+                            <p class="text-base font-normal text-gray-300 mt-2">守護長輩脊椎與心臟，輕鬆玩樂園</p>
                         </div>
                         <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-red-500">
                             <h3 class="text-xl font-black text-red-600 mb-4 flex items-center gap-2">⚠️ 絕對避開 (強烈衝擊)</h3>
-                            <ul class="space-y-4">
-                                <li class="bg-red-50 p-4 rounded-xl font-bold">● 陸地：太空山、巨雷山、飛濺山</li>
-                                <li class="bg-red-50 p-4 rounded-xl font-bold">● 海洋：驚魂古塔、地心探險、憤怒雙神</li>
+                            <ul class="space-y-4 font-normal text-gray-600">
+                                <li class="bg-red-50 p-4 rounded-xl">● 陸地：太空山、巨雷山、飛濺山</li>
+                                <li class="bg-red-50 p-4 rounded-xl">● 海洋：驚魂古塔、地心探險、憤怒雙神</li>
                             </ul>
-                        </div>
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-green-500">
-                            <h3 class="text-xl font-black text-green-600 mb-4 flex items-center gap-2">✅ 推薦搭乘 (溫和視覺秀)</h3>
-                            <ul class="space-y-3 font-bold text-gray-700">
-                                <li>● 陸地：美女與野獸、小熊維尼、小小世界</li>
-                                <li>● 海洋：安娜冰雪、彼得潘、翱翔 (Soaring)</li>
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            } else if (currentActiveTab === 'disney-move') {
-                html = `
-                    <div class="space-y-6 animation-fade-in">
-                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="map" class="w-8 h-8 text-[#C8A165]"></i> 園區移動策略</h2>
-                            <p class="text-base text-gray-300 mt-2">極小化步行，極大化接駁價值</p>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
-                                <h3 class="text-xl font-black text-[#2C4F3E] mb-3">🎢 樂園 (Land) 攻略</h3>
-                                <p class="text-gray-600 font-bold leading-relaxed">採取「順時針圓形移動」。早上從明日樂園開始，下午回卡通城。晚上看遊行座位就在世界市集門口，動線最短。</p>
-                            </div>
-                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
-                                <h3 class="text-xl font-black text-[#2C4F3E] mb-3">🌋 海洋 (Sea) 攻略</h3>
-                                <p class="text-gray-600 font-bold leading-relaxed">善用「渡輪」由北向南跨區，搭乘「高架電車」返回門口。住 FS 飯店房客請務必利用下午 14:30 回房小憩，這是避免長輩斷電的關鍵。</p>
-                            </div>
                         </div>
                     </div>
                 `;
@@ -325,51 +367,35 @@
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
                             <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="shopping-bag" class="w-8 h-8 text-[#C8A165]"></i> 採購指南</h2>
-                            <p class="text-base text-gray-300 mt-2">必買清單與客製化攻略</p>
+                            <p class="text-base font-normal text-gray-300 mt-2">東京必買清單與免稅策略</p>
                         </div>
-                        <div class="grid grid-cols-1 gap-6 font-bold">
-                             <div class="bg-white p-6 rounded-3xl border border-gray-200">
-                                <h3 class="text-xl text-[#C8A165] mb-2">🎁 迪士尼必買</h3>
-                                <p class="text-gray-600">客製化 Tomica、全家剪影、25週年藍美石紀念瓶、達菲最新公仔。</p>
-                            </div>
+                        
+                        <div class="space-y-6 font-normal">
                             <div class="bg-white p-6 rounded-3xl border border-gray-200">
-                                <h3 class="text-xl text-[#C8A165] mb-2">🍱 淺草名產</h3>
-                                <p class="text-gray-600">人形燒、常盤堂雷米、淺草絲綢布丁。</p>
+                                <h3 class="text-xl font-black text-[#C8A165] mb-4">💊 藥妝必買 (淺草購足)</h3>
+                                <ul class="grid grid-cols-2 gap-2 text-gray-600 text-sm">
+                                    <li>● Wakamoto 若元錠</li>
+                                    <li>● EVE 止痛藥 (金版)</li>
+                                    <li>● 參天玫瑰眼藥水</li>
+                                    <li>● 合利他命 EX Plus</li>
+                                    <li>● 龍角散散劑</li>
+                                    <li>● 曼秀雷敦 AD 軟膏</li>
+                                </ul>
                             </div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentActiveTab === 'pre-check') {
-                const checks = ["假期套票券包 (實體紙本)","護照與 VJW QR Code","長輩常備藥與慢箋","舒適運動鞋 (兩雙替換)","連日單軌電車券 (Resort Line)"];
-                html = `
-                    <div class="space-y-6 animation-fade-in">
-                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="check-square" class="w-8 h-8 text-[#C8A165]"></i> 行前必備</h2>
-                        </div>
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-4">
-                            ${checks.map(item => `
-                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0">
-                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E]" />
-                                    <span class="text-xl text-gray-700 font-bold">${item}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            } else if (currentActiveTab === 'return-check') {
-                const checks = ["飯店退房確認 (Safe Box)","免稅收據收集","利木津巴士/包車確認","行李是否超重 (23kg x 2)"];
-                html = `
-                    <div class="space-y-6 animation-fade-in">
-                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="plane-takeoff" class="w-8 h-8 text-[#C8A165]"></i> 賦歸檢查</h2>
-                        </div>
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-4">
-                            ${checks.map(item => `
-                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0">
-                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E]" />
-                                    <span class="text-xl text-gray-700 font-bold">${item}</span>
-                                </label>
-                            `).join('')}
+                            
+                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
+                                <h3 class="text-xl font-black text-[#C8A165] mb-4">🍪 伴手禮推薦</h3>
+                                <ul class="space-y-3 text-gray-600 text-sm">
+                                    <li>● <b>Tokyo Banana</b>：晴空塔限定版。</li>
+                                    <li>● <b>NY Perfect Cheese</b>：起司奶油捲。</li>
+                                    <li>● <b>Press Butter Sand</b>：焦糖奶油夾心。</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-amber-50 p-6 rounded-3xl border border-amber-200">
+                                <h3 class="text-lg font-black text-amber-800 mb-2">💡 免稅提醒</h3>
+                                <p class="text-amber-900 text-sm">滿 5000 日圓可免稅。消耗品在機場前不可拆開。</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -379,12 +405,12 @@
                 html = `
                     <div class="space-y-8 animation-slide-in-bottom pb-10">
                         <div class="flex flex-col gap-4 px-2">
-                            <button onclick="setActiveTab('overview')" class="w-fit flex items-center gap-2 text-lg font-black text-[#C8A165] bg-white border border-[#C8A165] px-5 py-2 rounded-full transition-all active:bg-[#C8A165] active:text-white">
+                            <button onclick="setActiveTab('overview')" class="w-fit flex items-center gap-2 text-lg font-black text-[#C8A165] bg-white border border-[#C8A165] px-5 py-2 rounded-full">
                                 <i data-lucide="arrow-left" class="w-5 h-5"></i> 返回列表
                             </button>
                             <div>
                                 <h2 class="text-4xl font-black text-[#2C4F3E] mt-2">${day.date}</h2>
-                                <p class="text-xl text-gray-500 font-bold mt-2">${day.title}</p>
+                                <p class="text-xl font-normal text-gray-500 mt-2">${day.title}</p>
                             </div>
                         </div>
 
@@ -392,25 +418,52 @@
                             ${day.events.map((event, i) => `
                                 <div class="relative group cursor-pointer" onclick="openModal(${dayIdx}, ${i})">
                                     <div class="absolute -left-[45px] top-2 w-[24px] h-[24px] rounded-full border-4 border-white shadow-md bg-[#C8A165] z-10"></div>
-                                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 active:bg-gray-50 transition-colors">
+                                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
                                         <div class="flex justify-between items-center mb-3">
                                             <span class="text-base font-black text-[#C8A165] flex items-center gap-2">
                                                 <i data-lucide="clock" class="w-5 h-5"></i> ${event.time}
                                             </span>
-                                            <span class="text-sm bg-[#F9F7F2] text-[#2C4F3E] px-3 py-1 rounded-lg font-bold">${event.loc}</span>
+                                            <span class="text-sm bg-[#F9F7F2] text-[#2C4F3E] px-3 py-1 rounded-lg font-black">${event.loc}</span>
                                         </div>
-                                        <h3 class="font-black text-[#2C4F3E] text-2xl mb-2 flex items-center">
+                                        <h3 class="font-black text-[#2C4F3E] text-2xl mb-2">
                                             ${event.title}
                                             ${event.isVp ? '<span class="vp-badge">VP</span>' : ''}
                                         </h3>
-                                        <p class="text-lg text-gray-600 font-bold leading-relaxed">${event.detail}</p>
-                                        <div class="mt-5 flex items-center gap-2 text-sm text-[#2C4F3E] bg-[#F9F7F2] px-4 py-3 rounded-xl w-fit font-black">
+                                        <p class="text-lg font-normal text-gray-600 leading-relaxed">${event.detail}</p>
+                                        
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            ${event.mustEat ? `<span class="bg-orange-50 text-orange-700 text-xs px-2 py-1 rounded-md font-bold">🍴 必吃: ${event.mustEat}</span>` : ''}
+                                            ${event.mustBuy ? `<span class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-md font-bold">🛍️ 必買: ${event.mustBuy}</span>` : ''}
+                                            ${event.souvenir ? `<span class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-md font-bold">🎁 伴手: ${event.souvenir}</span>` : ''}
+                                        </div>
+
+                                        <div class="mt-5 flex items-center gap-2 text-sm text-[#2C4F3E] bg-[#F9F7F2] px-4 py-3 rounded-xl w-fit font-normal">
                                             <i data-lucide="truck" class="w-5 h-5 text-[#C8A165]"></i> 
                                             <span>${event.trans}</span>
                                         </div>
                                     </div>
                                 </div>
                             `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentActiveTab === 'pre-check') {
+                const checks = ["假期套票券包 (實體紙本)","護照與 VJW QR Code","長輩常備藥與慢箋","舒適運動鞋","連日單軌電車券"];
+                html = `
+                    <div class="space-y-6 animation-fade-in">
+                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl"><h2 class="text-3xl font-black">行前必備</h2></div>
+                        <div class="bg-white rounded-3xl p-6 border border-gray-200 space-y-4">
+                            ${checks.map(item => `<label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0"><input type="checkbox" class="w-6 h-6 rounded" /><span class="text-xl text-gray-700 font-bold">${item}</span></label>`).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (currentActiveTab === 'return-check') {
+                const checks = ["飯店房內設施檢查","免稅單收集","包車確認","行李重量核對"];
+                html = `
+                    <div class="space-y-6 animation-fade-in">
+                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl"><h2 class="text-3xl font-black">賦歸檢查</h2></div>
+                        <div class="bg-white rounded-3xl p-6 border border-gray-200 space-y-4">
+                            ${checks.map(item => `<label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0"><input type="checkbox" class="w-6 h-6 rounded" /><span class="text-xl text-gray-700 font-bold">${item}</span></label>`).join('')}
                         </div>
                     </div>
                 `;
@@ -424,50 +477,29 @@
             return L.divIcon({
                 className: 'custom-marker',
                 html: `<div class='pin ${type === 'spot' ? 'pin-spot' : 'pin-food'}'></div><div class='pin-text'>${type === 'spot' ? '景' : '食'}</div>`,
-                iconSize: [36, 36],
-                iconAnchor: [18, 36],
-                popupAnchor: [0, -36]
+                iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -36]
             });
         }
 
         function loadMapDay(dayIdx) {
             const data = itineraryData[dayIdx];
             if (!data) return;
-            
-            document.querySelectorAll('button[id^="map-btn-"]').forEach(btn => {
-                btn.className = "shrink-0 px-5 py-3 rounded-xl whitespace-nowrap text-base font-bold bg-white border border-gray-200 text-gray-600 transition-all";
-            });
+            document.querySelectorAll('button[id^="map-btn-"]').forEach(btn => btn.className = "shrink-0 px-5 py-3 rounded-xl bg-white border border-gray-200 text-gray-600 font-bold");
             const activeBtn = document.getElementById(`map-btn-${dayIdx}`);
-            if(activeBtn) activeBtn.className = "shrink-0 px-5 py-3 rounded-xl whitespace-nowrap text-base font-bold bg-[#2C4F3E] text-white border-transparent transition-all shadow-md";
+            if(activeBtn) activeBtn.className = "shrink-0 px-5 py-3 rounded-xl bg-[#2C4F3E] text-white font-bold shadow-md";
 
             if (!mapInstance) {
                 mapInstance = L.map('map-view').setView([35.6329, 139.8804], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
-            } else {
-                mapInstance.eachLayer((layer) => { if (layer instanceof L.Marker) mapInstance.removeLayer(layer); });
-            }
+            } else { mapInstance.eachLayer((l) => { if (l instanceof L.Marker) mapInstance.removeLayer(l); }); }
 
             const bounds = [];
-            data.events.forEach(e => {
-                if (e.lat) {
-                    L.marker([e.lat, e.lng], { icon: createIcon('spot') }).addTo(mapInstance).bindPopup(`<b class="text-lg">${e.title}</b><p>${e.detail}</p>`);
-                    bounds.push([e.lat, e.lng]);
-                }
-            });
-            if (data.restaurants) data.restaurants.forEach(r => {
-                L.marker([r.lat, r.lng], { icon: createIcon('food') }).addTo(mapInstance).bindPopup(`<b class="text-lg">${r.name}</b><p>${r.desc}</p>`);
-                bounds.push([r.lat, r.lng]);
-            });
-
+            data.events.forEach(e => { if (e.lat) { L.marker([e.lat, e.lng], { icon: createIcon('spot') }).addTo(mapInstance).bindPopup(`<b>${e.title}</b>`); bounds.push([e.lat, e.lng]); } });
+            if (data.restaurants) data.restaurants.forEach(r => { L.marker([r.lat, r.lng], { icon: createIcon('food') }).addTo(mapInstance).bindPopup(`<b>${r.name}</b>`); bounds.push([r.lat, r.lng]); });
             if (bounds.length > 0) mapInstance.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
         }
 
-        function setActiveTab(tabId) {
-            currentActiveTab = tabId;
-            renderNav();
-            renderContent();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        function setActiveTab(tabId) { currentActiveTab = tabId; renderNav(); renderContent(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         function openModal(dayIdx, eventIdx) {
             const event = itineraryData[dayIdx].events[eventIdx];
@@ -479,37 +511,31 @@
                         <span class="text-sm font-black opacity-80 uppercase flex items-center gap-2 mb-2"><i data-lucide="map-pin" class="w-5 h-5"></i> ${event.loc}</span>
                         <h2 class="text-3xl font-black mt-1 leading-tight">${event.title}</h2>
                     </div>
-                    <div class="p-10 space-y-8">
+                    <div class="p-10 space-y-6">
                         <div>
                             <h4 class="text-sm font-black text-gray-400 uppercase tracking-widest mb-3">行程重點</h4>
-                            <p class="text-xl text-gray-700 leading-relaxed font-black">${event.detail}</p>
+                            <p class="text-xl text-gray-700 leading-relaxed font-normal">${event.detail}</p>
                         </div>
-                        <div class="pt-6 border-t border-gray-100">
-                            <div class="flex items-center gap-3 text-lg font-black text-[#C8A165] mb-3">
-                                <i data-lucide="truck" class="w-6 h-6"></i> 移動指南
-                            </div>
-                            <div class="p-5 bg-[#F9F7F2] rounded-2xl text-lg font-black text-[#2C4F3E]">
-                                交通方式：${event.trans}
-                            </div>
-                        </div>
-                        <button onclick="closeModal()" class="w-full bg-[#2C4F3E] text-white py-5 rounded-3xl font-black text-xl tracking-widest shadow-xl">關閉詳情</button>
+                        ${event.mustEat || event.mustBuy || event.souvenir ? `
+                        <div class="space-y-4 pt-4 border-t border-gray-100">
+                             ${event.mustEat ? `<div class="flex gap-3"><span class="shrink-0 text-lg">🍴</span><p class="text-gray-600 font-normal"><b class="text-[#C8A165]">必吃：</b>${event.mustEat}</p></div>` : ''}
+                             ${event.mustBuy ? `<div class="flex gap-3"><span class="shrink-0 text-lg">🛍️</span><p class="text-gray-600 font-normal"><b class="text-[#C8A165]">必買：</b>${event.mustBuy}</p></div>` : ''}
+                             ${event.souvenir ? `<div class="flex gap-3"><span class="shrink-0 text-lg">🎁</span><p class="text-gray-600 font-normal"><b class="text-[#C8A165]">伴手：</b>${event.souvenir}</p></div>` : ''}
+                        </div>` : ''}
+                        <button onclick="closeModal()" class="w-full bg-[#2C4F3E] text-white py-5 rounded-3xl font-black text-xl shadow-xl">關閉詳情</button>
                     </div>
                 </div>
             `;
-            modalContainer.classList.remove('hidden');
-            lucide.createIcons();
+            modalContainer.classList.remove('hidden'); lucide.createIcons();
         }
 
-        function closeModal() {
-            document.getElementById('modal-container').classList.add('hidden');
-        }
+        function closeModal() { document.getElementById('modal-container').classList.add('hidden'); }
 
         function updateFamilyStatus() {
-            const mockNow = new Date('2026-06-04T10:30:00'); // 模擬時間點
+            const mockNow = new Date('2026-06-04T10:30:00'); // 模擬時間
             const statusTextEl = document.getElementById('status-text');
             const statusTimeEl = document.getElementById('status-time');
             const statusIconEl = document.getElementById('status-icon');
-
             if (!statusTextEl) return;
             statusTimeEl.innerText = `Status • 06/04 10:30`;
             statusTextEl.innerText = "迪士尼樂園攻略中";
@@ -517,10 +543,9 @@
             lucide.createIcons();
         }
 
-        window.onload = () => {
-            renderNav();
-            renderContent();
-            updateFamilyStatus();
+        window.onload = () => { 
+            renderNav(); renderContent(); updateFamilyStatus();
+            setInterval(updateFamilyStatus, 60000); 
         };
     </script>
 </body>
