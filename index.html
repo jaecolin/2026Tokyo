@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>東京家族旅遊全能手冊V7</title>
+    <title>2026 東京三代同堂夢幻假期全手冊 V7.5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
@@ -60,15 +65,24 @@
             font-weight: bold;
             color: white;
         }
+        .vp-badge {
+            background: #D32F2F;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 900;
+            margin-left: 6px;
+        }
     </style>
 </head>
 <body class="bg-[#F9F7F2] text-[#2C4F3E] pb-32 min-h-screen">
 
     <header class="bg-[#2C4F3E] text-white px-6 py-10 rounded-b-[40px] shadow-2xl sticky top-0 z-50">
         <h1 class="text-4xl font-black tracking-tight flex items-center gap-3">
-            TOKYO 2026 <i data-lucide="plane" class="w-8 h-8 rotate-45 text-[#C8A165]"></i>
+            TOKYO 2026 <i data-lucide="sparkles" class="w-8 h-8 text-[#C8A165]"></i>
         </h1>
-        <p class="text-base text-[#C8A165] font-black mt-2 uppercase tracking-widest">Luxury Family Guide V7.0</p>
+        <p class="text-base text-[#C8A165] font-black mt-2 uppercase tracking-widest">三代同堂夢幻假期全攻略 V7.5</p>
     </header>
 
     <div class="flex overflow-x-auto gap-4 p-6 scrollbar-hide sticky top-[100px] bg-[#F9F7F2]/90 backdrop-blur-md z-40" id="nav-container">
@@ -100,75 +114,82 @@
     <script>
         const itineraryData = [
             {
-                date: "6/03 (三)", title: "抵達與接風之夜", summary: "班機抵達搭乘包車，享用高級日式晚餐",
+                date: "6/03 (三)", title: "抵達與希爾頓接風", summary: "班機抵達搭乘包車，享用高級日式晚餐",
                 events: [
                     { time: "14:30", loc: "成田機場", title: "包車前往希爾頓", detail: "九人座專車直達飯店門口。車程約七十分鐘，長輩可於車上休息。", trans: "包車", lat: 35.7719, lng: 140.3928 },
-                    { time: "16:30", loc: "希爾頓飯店", title: "辦理入住與休息", detail: "辦理入住並領取假期套票包，稍作梳洗。", trans: "步行", lat: 35.6279, lng: 139.8744 },
-                    { time: "18:00", loc: "大倉飯店", title: "日式會席晚餐", detail: "步行三分鐘即達，避開自助餐人潮。極致安靜與服務，精緻日式會席料理或壽司非常適合為長輩接風。", trans: "步行", lat: 35.6262, lng: 139.8727 }
+                    { time: "16:30", loc: "希爾頓飯店", title: "辦理入住與休息", detail: "辦理入住並領取假期套票券包，確認未來三日設施券與飲料券。", trans: "步行", lat: 35.6279, lng: 139.8744 },
+                    { time: "18:00", loc: "大倉飯店", title: "日式會席晚餐", detail: "步行三分鐘即達。環境安靜寬敞，精緻日式會席料理非常適合為長輩接風。", trans: "步行", lat: 35.6262, lng: 139.8727 }
                 ],
                 restaurants: [
-                    { name: "大倉飯店 羽衣", desc: "精緻日式會席料理與壽司，環境安靜寬敞", lat: 35.6262, lng: 139.8727 }
+                    { name: "大倉飯店 羽衣", desc: "精緻日式料理，長輩首選環境", lat: 35.6262, lng: 139.8727 }
                 ]
             },
             {
-                date: "6/04 (四)", title: "迪士尼陸地經典日", summary: "小熊維尼、美女與野獸、電子遊行",
+                date: "6/04 (四)", title: "迪士尼陸地：經典之旅", summary: "野獸、杯麵、米奇秀、米妮與夜間遊行",
                 events: [
-                    { time: "08:30", loc: "希爾頓飯店", title: "行李轉送", detail: "辦理退房，將大行李交給櫃檯指名轉送夢幻泉鄉飯店，兩手空空準備入園。", trans: "步行", lat: 35.6279, lng: 139.8744 },
-                    { time: "09:00", loc: "迪士尼陸地", title: "早晨策略通關", detail: "九點進場。用券玩巴斯光年，應用程式抽小熊維尼。早上人潮多，絕對不排美女與野獸，保留長輩體力。", trans: "單軌電車", lat: 35.6329, lng: 139.8804 },
-                    { time: "12:30", loc: "水晶宮餐廳", title: "午餐休息", detail: "建議提前預約，方便全家坐下好好用餐休息。", trans: "步行", lat: 35.6332, lng: 139.8789 },
-                    { time: "14:00", loc: "室內劇場", title: "室內看秀", detail: "安排米奇魔法音樂世界或魔術，室內免排隊吹冷氣。", trans: "步行", lat: 35.6320, lng: 139.8790 },
-                    { time: "15:00", loc: "美女與野獸", title: "城堡奇緣", detail: "使用保障名額直接走預約通道進場。進場前可買米奇鬆餅讓長輩坐在長椅休息。", trans: "步行", lat: 35.6312, lng: 139.8782 },
-                    { time: "18:30", loc: "小城廣場", title: "電子大遊行", detail: "專屬席位觀賞，不需久坐佔位等待。", trans: "步行", lat: 35.6325, lng: 139.8800 },
-                    { time: "21:00", loc: "夢幻泉鄉大飯店", title: "入住休息", detail: "抵達全新飯店，結束充實的一天。", trans: "單軌電車", lat: 35.6275, lng: 139.8850 }
+                    { time: "08:30", loc: "希爾頓", title: "行李轉送與出發", detail: "將大行李交給櫃檯指名轉送夢幻泉鄉飯店。搭乘接駁車至單軌站。", trans: "接駁巴士+單軌", lat: 35.6279, lng: 139.8744 },
+                    { time: "09:30", loc: "夢幻樂園", title: "美女與野獸", detail: "【假期套票 VP】保證位。直接走快速通道，長輩免排隊。", trans: "步行", lat: 35.6329, lng: 139.8804, isVp: true },
+                    { time: "10:30", loc: "明日樂園", title: "杯麵的歡樂巡航", detail: "【假期套票 VP】就在隔壁，音樂動感，適合讓小女孩先嗨起來。", trans: "步行", lat: 35.6330, lng: 139.8810, isVp: true },
+                    { time: "11:30", loc: "世界市集旁", title: "水晶宮餐廳 (午餐)", detail: "【假期套票預約】Buffet 自助餐，適合全家各取所好。", trans: "步行", lat: 35.6332, lng: 139.8789, isVp: true },
+                    { time: "12:50", loc: "世界市集", title: "客製化雙任務", detail: "玩具小站下單 Tomica，隨即去隔壁剪影小舖排隊剪全家像。", trans: "步行", lat: 35.6328, lng: 139.8770 },
+                    { time: "14:00", loc: "歌舞基地", title: "米奇歡樂秀", detail: "【假期套票專屬席】室內大劇場看秀，長輩體力充電點。", trans: "步行", lat: 35.6320, lng: 139.8790, isVp: true },
+                    { time: "15:00", loc: "卡通城", title: "米妮時尚工作室", detail: "【假期套票 VP】與米妮拍照。結束後玩隔壁小熊維尼。", trans: "步行", lat: 35.6335, lng: 139.8820, isVp: true },
+                    { time: "17:20", loc: "世界市集", title: "外南街咖啡餐館", detail: "【假期套票預約】晚餐洋食。建議 18:45 離開，座位區就在門口。", trans: "步行", lat: 35.6325, lng: 139.8780, isVp: true },
+                    { time: "19:15", loc: "遊行路線", title: "電子大遊行", detail: "【假期套票觀賞位】坐在保留席悠閒看秀，不需提早佔位。", trans: "步行", lat: 35.6325, lng: 139.8800, isVp: true }
                 ],
                 restaurants: [
-                    { name: "水晶宮餐廳", desc: "室內自助餐，提前預約免排隊", lat: 35.6332, lng: 139.8789 }
+                    { name: "水晶宮餐廳", desc: "豐富自助餐，全家體力站", lat: 35.6332, lng: 139.8789 }
                 ]
             },
             {
-                date: "6/05 (五)", title: "海洋夢幻泉鄉攻略", summary: "新園區暢玩、動感大樂團、水上秀",
+                date: "6/05 (五)", title: "海洋夢幻泉鄉與慶典", summary: "新園區三連發、渡輪、大樂動與水上秀",
                 events: [
-                    { time: "07:50", loc: "夢幻泉鄉", title: "飯店早餐", detail: "於夢幻泉鄉餐廳享用豐盛早餐。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "09:00", loc: "夢幻泉鄉", title: "提早入園暢玩", detail: "從飯店專屬入口進入，利用神卡無限次遊玩冰雪奇緣與彼得潘。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "12:30", loc: "艾倫戴爾", title: "皇家宴會午餐", detail: "於冰雪奇緣主題餐廳用餐。", trans: "步行", lat: 35.6280, lng: 139.8845 },
-                    { time: "14:30", loc: "百老匯劇場", title: "動感大樂團", detail: "搭乘渡輪前往美國海濱。室內強冷氣看秀，幫助長輩體力回補。", trans: "渡輪", lat: 35.6250, lng: 139.8860 },
-                    { time: "18:10", loc: "夢幻泉鄉", title: "飯店晚餐", detail: "返回夢幻泉鄉餐廳享用晚餐。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "19:30", loc: "地中海港灣", title: "水上夜間秀", detail: "於專屬區觀賞堅信夢想之海水上表演。", trans: "步行", lat: 35.6265, lng: 139.8865 }
+                    { time: "07:50", loc: "夢幻泉鄉飯店", title: "飯店早餐", detail: "於 FS 餐廳享用早餐。結束後從飯店專屬入口入園。", trans: "步行", lat: 35.6275, lng: 139.8850 },
+                    { time: "09:30", loc: "夢幻泉鄉", title: "冰雪奇緣+彼得潘+樂佩", detail: "【假期套票 VP】集中攻略新園區。都在飯店門口，動線極短。", trans: "步行", lat: 35.6280, lng: 139.8845, isVp: true },
+                    { time: "13:20", loc: "艾倫戴爾城堡", title: "皇家宴會午餐", detail: "【假期套票預約】在冰雪奇緣城堡內用餐，女孩變身小公主。", trans: "步行", lat: 35.6285, lng: 139.8840, isVp: true },
+                    { time: "14:40", loc: "海洋航線", title: "跨區：渡輪巡航", detail: "搭渡輪從新園區移動至地中海港灣。坐著吹風 15 分鐘，長輩激推。", trans: "渡輪", lat: 35.6250, lng: 139.8860 },
+                    { time: "15:40", loc: "百老匯劇場", title: "大樂動 (BBB)", detail: "【假期套票專屬席】看米奇爵士鼓秀。從發現港搭電車直達門口。", trans: "高架電車", lat: 35.6245, lng: 139.8855, isVp: true },
+                    { time: "18:10", loc: "夢幻泉鄉飯店", title: "飯店晚餐", detail: "【假期套票預約】回飯店用餐。飯後長輩可立即回房休息。", trans: "步行", lat: 35.6275, lng: 139.8850, isVp: true },
+                    { time: "19:30", loc: "地中海港灣", title: "堅信！夢想之海", detail: "【假期套票觀賞位】震撼水上大秀，視覺滿分。", trans: "步行", lat: 35.6265, lng: 139.8865, isVp: true }
                 ],
                 restaurants: [
-                    { name: "艾倫戴爾宴會", desc: "冰雪奇緣城堡內用餐，推薦皇室牛肉派", lat: 35.6280, lng: 139.8845 },
-                    { name: "夢幻泉鄉餐廳", desc: "回飯店享用晚餐，避開園區人潮", lat: 35.6275, lng: 139.8850 }
+                    { name: "艾倫戴爾宴會", desc: "冰雪城堡用餐，氛圍極佳", lat: 35.6285, lng: 139.8840 }
                 ]
             },
             {
-                date: "6/06 (六)", title: "海洋轉移與淺草觀光", summary: "早上補玩設施，下午包車前往淺草雷門",
+                date: "6/06 (六)", title: "海洋最後巡禮與轉移", summary: "玩具總動員、櫻花餐廳、包車前往淺草",
                 events: [
-                    { time: "08:30", loc: "夢幻泉鄉", title: "最後巡禮", detail: "早餐後利用神卡補玩最愛的設施，隨時進出新園區，行程極度自由。", trans: "步行", lat: 35.6275, lng: 139.8850 },
-                    { time: "14:30", loc: "迪士尼海洋", title: "包車前往淺草", detail: "搭乘預約包車直達淺草飯店，免去搬運轉乘勞頓。", trans: "包車", lat: 35.7126, lng: 139.7965 },
-                    { time: "17:00", loc: "淺草雷門", title: "淺草寺參拜", detail: "傍晚氣候涼爽散步，晚餐享用淺草今半壽喜燒。", trans: "步行", lat: 35.7147, lng: 139.7966 }
+                    { time: "08:15", loc: "海洋入口", title: "Happy Entry 特權", detail: "利用房客提早入園玩二刷彼得潘或樂佩，這時免排隊。", trans: "步行", lat: 35.6275, lng: 139.8850 },
+                    { time: "10:00", loc: "夢幻泉鄉", title: "安娜與艾莎二刷", detail: "【假期套票 VP】飯店門口再玩一次，觀察更多科技細節。", trans: "步行", lat: 35.6280, lng: 139.8845, isVp: true },
+                    { time: "11:30", loc: "美國海濱", title: "玩具總動員", detail: "【假期套票 VP】週六人潮多，直接用券進入快速通道。", trans: "高架電車", lat: 35.6240, lng: 139.8850, isVp: true },
+                    { time: "13:30", loc: "美國海濱", title: "櫻花餐廳 (午餐)", detail: "【假期套票預約】就在設施隔壁！日式定食是長輩的救贖。", trans: "步行", lat: 35.6242, lng: 139.8848, isVp: true },
+                    { time: "15:00", loc: "地中海港灣", title: "最後採買與迎賓秀", detail: "慢慢往出口散步。之後回飯店領行李，準備出園。", trans: "步行", lat: 35.6260, lng: 139.8860 },
+                    { time: "16:30", loc: "舞濱", title: "包車前往淺草", detail: "搭乘九人座包車直達淺草飯店，避開地鐵人潮。", trans: "包車", lat: 35.7147, lng: 139.7966 },
+                    { time: "18:30", loc: "淺草今半", title: "和牛壽喜燒", detail: "百年老店。享用頂級黑毛和牛，慶祝順利入駐市區。", trans: "步行", lat: 35.7135, lng: 139.7930 }
                 ],
                 restaurants: [
-                    { name: "淺草今半", desc: "頂級黑毛和牛壽喜燒老店，長輩極致享受", lat: 35.7135, lng: 139.7930 }
+                    { name: "櫻花餐廳", desc: "美式碼頭邊的日式滋味", lat: 35.6242, lng: 139.8848 },
+                    { name: "淺草今半", desc: "頂級壽喜燒老店，長輩極致享受", lat: 35.7135, lng: 139.7930 }
                 ]
             },
             {
-                date: "6/07 (日)", title: "東京地標輕鬆遊", summary: "皇居拍照、築地午餐、水族館與晴空塔",
+                date: "6/07 (日)", title: "東京地標地標巡禮", summary: "皇居照片、築地午餐、水族館與晴空塔",
                 events: [
-                    { time: "09:30", loc: "皇居外苑", title: "二重橋拍照", detail: "計程車直接載到二重橋前，減少長輩步行負擔。", trans: "計程車", lat: 35.6841, lng: 139.7525 },
-                    { time: "11:30", loc: "築地市場", title: "壽司午餐", detail: "預約制餐廳，長輩不需站立排隊即可享用美食。", trans: "計程車", lat: 35.6655, lng: 139.7707 },
-                    { time: "14:30", loc: "墨田水族館", title: "室內水族館", detail: "冷氣充足，全室內行程，適合祖孫同樂。", trans: "電梯", lat: 35.7100, lng: 139.8107 },
-                    { time: "17:30", loc: "晴空塔", title: "展望台夕陽", detail: "預約登塔欣賞日落美景，對長輩小孩負擔最小。", trans: "電梯", lat: 35.7100, lng: 139.8107 }
+                    { time: "09:30", loc: "皇居外苑", title: "二重橋拍照", detail: "包車載到橋前。這是長輩必拍景點，減少步行負擔。", trans: "包車", lat: 35.6841, lng: 139.7525 },
+                    { time: "11:30", loc: "築地市場", title: "壽司午餐", detail: "預約制餐廳，長輩不排隊即可享用現流美食。", trans: "計程車", lat: 35.6655, lng: 139.7707 },
+                    { time: "14:30", loc: "墨田水族館", title: "室內水族館", detail: "冷氣充足全室內。適合小孩與長輩悠閒散步。", trans: "電梯", lat: 35.7100, lng: 139.8107 },
+                    { time: "17:30", loc: "晴空塔", title: "展望台夕陽", detail: "預約登塔。登高遠眺富士山與東京都全景。", trans: "電梯", lat: 35.7100, lng: 139.8107 }
                 ],
                 restaurants: [
-                    { name: "築地預約餐廳", desc: "預先安排的精緻壽司，免去排隊辛勞", lat: 35.6650, lng: 139.7700 }
+                    { name: "築地預約餐廳", desc: "免排隊的高級壽司體驗", lat: 35.6650, lng: 139.7700 }
                 ]
             },
             {
-                date: "6/08 (一)", title: "淺草巡禮與賦歸", summary: "文化中心展望台，道具街散步，包車赴機場",
+                date: "6/08 (一)", title: "文化巡禮與平安賦歸", summary: "展望台美景，道具街漫步，包車赴機場",
                 events: [
-                    { time: "10:00", loc: "淺草文化中心", title: "八樓展望台", detail: "登高拍攝淺草寺與晴空塔全景，留下美好回憶。", trans: "電梯", lat: 35.7108, lng: 139.7963 },
-                    { time: "11:00", loc: "合羽橋道具街", title: "街區散步", detail: "於道具街或隅田川畔輕鬆漫步，享受最後的東京早晨。", trans: "步行", lat: 35.7144, lng: 139.7885 },
-                    { time: "13:00", loc: "淺草", title: "包車前往機場", detail: "搭乘包車前往成田機場，準備搭乘下午三點半的班機返家。", trans: "包車", lat: 35.7719, lng: 140.3928 }
+                    { time: "10:00", loc: "淺草文化中心", title: "八樓展望台", detail: "登高拍攝淺草寺與晴空塔全景，風景極佳。", trans: "電梯", lat: 35.7108, lng: 139.7963 },
+                    { time: "11:00", loc: "合羽橋", title: "道具街散步", detail: "有趣的日式廚具與瓷器街。慢慢散步回飯店。", trans: "步行", lat: 35.7144, lng: 139.7885 },
+                    { time: "13:30", loc: "淺草飯店", title: "包車前往成田", detail: "專車前往機場。預計 15:00 抵達成田，準備辦理登機。", trans: "包車", lat: 35.7719, lng: 140.3928 }
                 ],
                 restaurants: []
             }
@@ -181,10 +202,9 @@
             const tabs = [
                 { id: 'overview', label: '行程總覽' },
                 { id: 'map', label: '地圖總覽' },
-                { id: 'disney-move-guide', label: '園區移動策略' },
-                { id: 'disney-guide', label: '迪士尼指南' },
-                { id: 'tour-guide', label: '導覽指南' },
-                { id: 'shopping-guide', label: '採購指南' },
+                { id: 'disney-safety', label: '長輩安全指南' },
+                { id: 'disney-move', label: '園區移動策略' },
+                { id: 'shopping', label: '採購指南' },
                 { id: 'pre-check', label: '行前清單' },
                 { id: 'return-check', label: '回程清單' }
             ];
@@ -213,7 +233,7 @@
             if (currentActiveTab === 'overview') {
                 html = `
                     <div class="space-y-6 animation-fade-in">
-                        <h2 class="text-3xl font-bold text-[#2C4F3E] px-2 mb-6">每日行程列表</h2>
+                        <h2 class="text-3xl font-black text-[#2C4F3E] px-2 mb-6">每日行程列表</h2>
                         ${itineraryData.map((day, idx) => `
                             <div onclick="setActiveTab('day-${idx}')" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 flex items-center justify-between hover:border-[#C8A165] transition-all cursor-pointer">
                                 <div class="flex gap-6 items-center">
@@ -234,7 +254,7 @@
             } else if (currentActiveTab === 'map') {
                 html = `
                     <div class="animation-fade-in flex flex-col">
-                        <h2 class="text-2xl font-bold text-[#2C4F3E] mb-4">地圖與推薦餐廳</h2>
+                        <h2 class="text-2xl font-black text-[#2C4F3E] mb-4">地圖與推薦餐廳</h2>
                         <div class="flex gap-3 overflow-x-auto mb-6 scrollbar-hide py-2" id="map-day-selector">
                             ${itineraryData.map((day, idx) => `
                                 <button onclick="loadMapDay(${idx})" id="map-btn-${idx}" class="shrink-0 px-5 py-3 rounded-xl whitespace-nowrap text-base font-bold bg-white border border-gray-200 text-gray-600 transition-all">
@@ -243,231 +263,93 @@
                             `).join('')}
                         </div>
                         <div id="map-view" class="w-full h-[60vh] rounded-3xl z-0 shadow-lg border border-gray-200"></div>
-                        
                         <div class="mt-6 p-6 bg-white rounded-3xl shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-4 flex items-center gap-2"><i data-lucide="info" class="w-6 h-6 text-[#C8A165]"></i> 地圖圖例</h3>
-                            <div class="flex gap-6">
+                             <div class="flex gap-6">
                                 <div class="flex items-center gap-3">
                                     <div class="w-6 h-6 rounded-full bg-[#2C4F3E] flex items-center justify-center text-white text-xs font-bold">景</div>
-                                    <span class="text-lg text-gray-600 font-bold">行程景點</span>
+                                    <span class="text-lg text-gray-600 font-bold">景點</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <div class="w-6 h-6 rounded-full bg-[#C8A165] flex items-center justify-center text-white text-xs font-bold">食</div>
-                                    <span class="text-lg text-gray-600 font-bold">推薦餐廳</span>
+                                    <span class="text-lg text-gray-600 font-bold">推薦食宿</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
                 setTimeout(() => loadMapDay(0), 100);
-            } else if (currentActiveTab === 'disney-move-guide') {
+            } else if (currentActiveTab === 'disney-safety') {
                 html = `
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="footprints" class="w-8 h-8 text-[#C8A165]"></i> 園區移動策略</h2>
-                            <p class="text-base text-gray-300 mt-2">針對長輩與幼童優化的專屬動線</p>
+                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="shield-check" class="w-8 h-8 text-[#C8A165]"></i> 長輩設施安全指南</h2>
+                            <p class="text-base text-gray-300 mt-2">守護長輩脊椎與心臟，輕鬆玩樂園</p>
                         </div>
-                        
-                        <!-- 迪士尼陸地 (Land) -->
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-[#3B82F6]">
-                            <h3 class="text-2xl font-bold text-[#3B82F6] mb-4 flex items-center gap-2">🎢 陸地 Land：節省體力法</h3>
-                            
-                            <div class="space-y-4">
-                                <div class="bg-blue-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-blue-800 mb-2 flex items-center gap-2">① 九點入園</h4>
-                                    <p class="text-gray-700 font-medium">專攻右側「明日樂園」。利用 VP 券玩維尼，省去長排隊。</p>
-                                </div>
-                                <div class="bg-blue-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-blue-800 mb-2 flex items-center gap-2">② 午後移動</h4>
-                                    <p class="text-gray-700 font-medium">慢慢散步至城堡左側看秀。下午 3 點再回頭玩美女與野獸 (VP通關)。</p>
-                                </div>
-                                <div class="bg-blue-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-blue-800 mb-2 flex items-center gap-2">③ 遊行位置</h4>
-                                    <p class="text-gray-700 font-medium">18:30 電子大遊行，VP 專屬席在城堡正前方或小城廣場，15 分鐘前抵達即可。</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 迪士尼海洋 (Sea) -->
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-[#0EA5E9]">
-                            <h3 class="text-2xl font-bold text-[#0EA5E9] mb-4 flex items-center gap-2">🌋 海洋 Sea：新園區核心法</h3>
-                            
-                            <div class="space-y-4">
-                                <div class="bg-sky-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-sky-800 mb-2 flex items-center gap-2">① 新園區特權</h4>
-                                    <p class="text-gray-700 font-medium">飯店專屬入口直接進入「夢幻泉鄉」。早上主攻此區。</p>
-                                </div>
-                                <div class="bg-sky-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-sky-800 mb-2 flex items-center gap-2">② 下午休整</h4>
-                                    <p class="text-gray-700 font-medium">FS 離飯店極近，14:30 建議長輩小孩回房小憩。16:00 再出發。</p>
-                                </div>
-                                <div class="bg-sky-50 p-4 rounded-xl">
-                                    <h4 class="text-lg font-bold text-sky-800 mb-2 flex items-center gap-2">③ 高效橫跨</h4>
-                                    <p class="text-gray-700 font-medium">從深處 (FS/失去河) 到大門口，請務必搭乘「渡輪」，省下 15 分鐘步行路程。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (currentActiveTab === 'disney-guide') {
-                html = `
-                    <div class="space-y-6 animation-fade-in">
-                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex flex-col gap-2">
-                                <i data-lucide="castle" class="w-8 h-8 text-[#C8A165]"></i> 
-                                東京迪士尼：長輩設施安全與入園禁忌指南
-                            </h2>
-                            <p class="text-base text-gray-300 mt-4 leading-relaxed">這份指南專為四位成人包含兩位六十歲以上長輩與兩位幼童家族設計。</p>
-                        </div>
-
-                        <!-- 避開設施 -->
                         <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-red-500">
-                            <h3 class="text-2xl font-bold text-red-600 mb-2 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-6 h-6"></i> 建議避開或謹慎評估的設施</h3>
-                            <p class="text-gray-600 font-medium mb-4">這些設施具有較強物理衝擊力，長輩若有高血壓心臟病或脊椎不適務必跳過。</p>
-                            
-                            <h4 class="text-xl font-bold text-[#2C4F3E] mt-6 mb-2 border-b border-gray-100 pb-2">東京迪士尼樂園 (Land)</h4>
+                            <h3 class="text-xl font-black text-red-600 mb-4 flex items-center gap-2">⚠️ 絕對避開 (強烈衝擊)</h3>
                             <ul class="space-y-4">
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">太空山 (Space Mountain)</strong>
-                                    <span class="text-gray-700">全黑環境下的高速雲霄飛車，離心力強且方向多變，對頸椎與平衡感挑戰極大。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">巨雷山 (Big Thunder Mountain)</strong>
-                                    <span class="text-gray-700">高度雖不高但車體震動顛簸極強，容易造成腰背負擔。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">飛濺山 (Splash Mountain)</strong>
-                                    <span class="text-gray-700">極高俯衝下墜，強烈墜落感對心臟壓力較大且會濕身。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">星際旅行：冒險續航 (Star Tours)</strong>
-                                    <span class="text-gray-700">劇烈3D模擬飛行，若長輩容易暈車暈船幾乎必暈。</span>
-                                </li>
-                            </ul>
-
-                            <h4 class="text-xl font-bold text-[#2C4F3E] mt-8 mb-2 border-b border-gray-100 pb-2">東京迪士尼海洋 (Sea)</h4>
-                            <ul class="space-y-4">
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">驚魂古塔 (Tower of Terror)</strong>
-                                    <span class="text-gray-700">垂直自由落體下墜，強烈重力加速度對心臟血壓不友善。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">憤怒雙神 (Raging Spirits)</strong>
-                                    <span class="text-gray-700">三百六十度翻轉雲霄飛車，過於刺激體力損耗極大。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">地心探險之旅 (Journey to the Center of the Earth)</strong>
-                                    <span class="text-gray-700">包含急加速與一段陡坡俯衝速度感非常強。</span>
-                                </li>
-                                <li class="bg-red-50 p-4 rounded-xl">
-                                    <strong class="text-lg text-red-700 block mb-1">印第安納瓊斯 (Indiana Jones)</strong>
-                                    <span class="text-gray-700">車輛劇烈搖晃急轉彎，要防範頸部與背部拉傷。</span>
-                                </li>
+                                <li class="bg-red-50 p-4 rounded-xl font-bold">● 陸地：太空山、巨雷山、飛濺山</li>
+                                <li class="bg-red-50 p-4 rounded-xl font-bold">● 海洋：驚魂古塔、地心探險、憤怒雙神</li>
                             </ul>
                         </div>
-
-                        <!-- 安全提醒 -->
-                        <div class="bg-[#F9F7F2] rounded-3xl p-6 border border-[#C8A165]">
-                            <h3 class="text-xl font-bold text-[#C8A165] flex items-center gap-2 mb-2"><i data-lucide="lightbulb" class="w-6 h-6"></i> 溫馨提醒</h3>
-                            <p class="text-lg text-[#2C4F3E] font-medium leading-relaxed">套票預約的美女與野獸、冰雪奇緣、樂佩天燈皆為溫和黑暗騎乘設施，長輩完全可以放心搭乘。</p>
+                        <div class="bg-white rounded-3xl p-6 shadow-sm border-l-8 border-green-500">
+                            <h3 class="text-xl font-black text-green-600 mb-4 flex items-center gap-2">✅ 推薦搭乘 (溫和視覺秀)</h3>
+                            <ul class="space-y-3 font-bold text-gray-700">
+                                <li>● 陸地：美女與野獸、小熊維尼、小小世界</li>
+                                <li>● 海洋：安娜冰雪、彼得潘、翱翔 (Soaring)</li>
+                            </ul>
                         </div>
-
-                        <!-- 禁帶物品 -->
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"><i data-lucide="ban" class="w-6 h-6 text-gray-500"></i> 禁止攜帶入園物品嚴格檢查</h3>
-                            <div class="space-y-4">
-                                <div><strong class="text-[#2C4F3E] block">罐裝與玻璃瓶飲料：</strong><span class="text-gray-600">限寶特瓶或保溫瓶，玻璃鋁罐需丟棄。</span></div>
-                                <div><strong class="text-[#2C4F3E] block">酒類：</strong><span class="text-gray-600">嚴禁自行攜帶酒精飲料。</span></div>
-                                <div><strong class="text-[#2C4F3E] block">外食：</strong><span class="text-gray-600">大型便當需至園外野餐區食用，幼童零食少量不刁難。</span></div>
-                                <div><strong class="text-[#2C4F3E] block">腳架與自拍棒：</strong><span class="text-gray-600">嚴禁大型腳架與折疊椅，自拍棒限手掌長度且不可伸長。</span></div>
-                                <div><strong class="text-[#2C4F3E] block">拉車式推車：</strong><span class="text-gray-600">禁止露營拉車，一般嬰兒推車可以。</span></div>
+                    </div>
+                `;
+            } else if (currentActiveTab === 'disney-move') {
+                html = `
+                    <div class="space-y-6 animation-fade-in">
+                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
+                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="map" class="w-8 h-8 text-[#C8A165]"></i> 園區移動策略</h2>
+                            <p class="text-base text-gray-300 mt-2">極小化步行，極大化接駁價值</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
+                                <h3 class="text-xl font-black text-[#2C4F3E] mb-3">🎢 樂園 (Land) 攻略</h3>
+                                <p class="text-gray-600 font-bold leading-relaxed">採取「順時針圓形移動」。早上從明日樂園開始，下午回卡通城。晚上看遊行座位就在世界市集門口，動線最短。</p>
                             </div>
-                        </div>
-
-                        <!-- 支援服務 -->
-                        <div class="bg-[#2C4F3E] text-white rounded-3xl p-6 shadow-sm">
-                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-[#C8A165]"><i data-lucide="heart-handshake" class="w-6 h-6"></i> 給長輩的園區支援服務</h3>
-                            <div class="space-y-4 text-gray-200">
-                                <div><strong class="text-white block">救護中心 (First Aid)：</strong>若有不適立刻尋找白袍工作人員。</div>
-                                <div><strong class="text-white block">無障礙動線：</strong>現場可租借輪椅一天五百日圓，減輕長輩腳力負擔。</div>
-                                <div><strong class="text-white block">優先入座：</strong>餐廳排隊若感不適請主動告知工作人員獲取輔助椅子。</div>
-                            </div>
-                        </div>
-
-                        <!-- 三大金句 -->
-                        <div class="bg-gradient-to-r from-[#C8A165] to-amber-500 text-white rounded-3xl p-6 shadow-lg text-center">
-                            <h3 class="text-2xl font-black mb-4">👨‍👩‍👧‍👦 家族旅行三大金句</h3>
-                            <div class="text-lg font-bold space-y-2">
-                                <p>不勉強：刺激設施讓長輩逛商店街吹冷氣。</p>
-                                <p>多喝水：善用套票飲料券每兩小時坐下喝水。</p>
-                                <p>多休息：下午回飯店午睡是避免爭吵的關鍵。</p>
+                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
+                                <h3 class="text-xl font-black text-[#2C4F3E] mb-3">🌋 海洋 (Sea) 攻略</h3>
+                                <p class="text-gray-600 font-bold leading-relaxed">善用「渡輪」由北向南跨區，搭乘「高架電車」返回門口。住 FS 飯店房客請務必利用下午 14:30 回房小憩，這是避免長輩斷電的關鍵。</p>
                             </div>
                         </div>
                     </div>
                 `;
-            } else if (currentActiveTab === 'tour-guide') {
+            } else if (currentActiveTab === 'shopping') {
                 html = `
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="map" class="w-8 h-8 text-[#C8A165]"></i> 導覽指南</h2>
-                            <p class="text-base text-gray-300 mt-2">交通銜接與隨身工具備忘錄</p>
+                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="shopping-bag" class="w-8 h-8 text-[#C8A165]"></i> 採購指南</h2>
+                            <p class="text-base text-gray-300 mt-2">必買清單與客製化攻略</p>
                         </div>
-                        
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-3 flex items-center gap-2"><i data-lucide="car" class="w-6 h-6 text-[#C8A165]"></i> 包車聯絡資訊</h3>
-                            <p class="text-gray-600 mb-2">請於出發前一日再次利用通訊軟體確認司機車牌與聯絡方式。</p>
-                            <div class="bg-[#F9F7F2] p-4 rounded-xl text-gray-500 text-sm italic">（預留欄位：填寫司機資訊）</div>
-                        </div>
-
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-3 flex items-center gap-2"><i data-lucide="smartphone" class="w-6 h-6 text-[#C8A165]"></i> 隨身翻譯與網路</h3>
-                            <p class="text-gray-600 mb-2">建議事先下載語音翻譯應用程式，並確認所有成員的手機漫遊或上網卡皆已設定完畢。</p>
-                            <p class="text-gray-600">長輩手機建議預存飯店地址圖檔，以備不時之需。</p>
-                        </div>
-                    </div>
-                `;
-            } else if (currentActiveTab === 'shopping-guide') {
-                html = `
-                    <div class="space-y-6 animation-fade-in">
-                        <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="shopping-bag" class="w-8 h-8 text-[#C8A165]"></i> 採購指南</h2>
-                            <p class="text-base text-gray-300 mt-2">免稅提醒與推薦採購區域</p>
-                        </div>
-                        
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-2 flex items-center gap-2"><i data-lucide="gift" class="w-6 h-6 text-[#C8A165]"></i> 迪士尼園區購物</h3>
-                            <p class="text-gray-600 mb-4">園區內所有商品皆無退稅服務。建議運用最後一天的時間集中於夢幻泉鄉飯店購買紀念品免去提拿負擔。</p>
-                        </div>
-
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-2 flex items-center gap-2"><i data-lucide="store" class="w-6 h-6 text-[#C8A165]"></i> 淺草伴手禮</h3>
-                            <p class="text-gray-600 mb-4">雷門周邊適合購買傳統人形燒與抹茶點心，合羽橋道具街則適合尋找高質感廚具與日式瓷器。</p>
-                        </div>
-
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200">
-                            <h3 class="text-xl font-bold text-[#2C4F3E] mb-2 flex items-center gap-2"><i data-lucide="pill" class="w-6 h-6 text-[#C8A165]"></i> 市區藥妝與免稅品</h3>
-                            <p class="text-gray-600">若有採購藥妝需求，建議統一於淺草入住時一次購足，避免行程前段拖拉過多行李。</p>
+                        <div class="grid grid-cols-1 gap-6 font-bold">
+                             <div class="bg-white p-6 rounded-3xl border border-gray-200">
+                                <h3 class="text-xl text-[#C8A165] mb-2">🎁 迪士尼必買</h3>
+                                <p class="text-gray-600">客製化 Tomica、全家剪影、25週年藍美石紀念瓶、達菲最新公仔。</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-3xl border border-gray-200">
+                                <h3 class="text-xl text-[#C8A165] mb-2">🍱 淺草名產</h3>
+                                <p class="text-gray-600">人形燒、常盤堂雷米、淺草絲綢布丁。</p>
+                            </div>
                         </div>
                     </div>
                 `;
             } else if (currentActiveTab === 'pre-check') {
-                const checks = [
-                    "護照確認效期六個月以上",
-                    "迪士尼套票實體券包勿遺失",
-                    "長輩常備用藥與血壓藥",
-                    "舒適好走的運動鞋",
-                    "輕便好收納的薄外套"
-                ];
+                const checks = ["假期套票券包 (實體紙本)","護照與 VJW QR Code","長輩常備藥與慢箋","舒適運動鞋 (兩雙替換)","連日單軌電車券 (Resort Line)"];
                 html = `
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="list-checks" class="w-8 h-8 text-[#C8A165]"></i> 行前清單</h2>
-                            <p class="text-base text-gray-300 mt-2">出發前請協助長輩與幼童確認</p>
+                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="check-square" class="w-8 h-8 text-[#C8A165]"></i> 行前必備</h2>
                         </div>
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-2">
+                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-4">
                             ${checks.map(item => `
-                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0 cursor-pointer active:bg-gray-50 rounded-xl transition-colors">
-                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E] focus:ring-[#C8A165]" />
+                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0">
+                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E]" />
                                     <span class="text-xl text-gray-700 font-bold">${item}</span>
                                 </label>
                             `).join('')}
@@ -475,23 +357,16 @@
                     </div>
                 `;
             } else if (currentActiveTab === 'return-check') {
-                const checks = [
-                    "確認飯店房間保險箱與插座無遺漏",
-                    "免稅品與收據依照規定妥善放置",
-                    "護照、手機與錢包隨身攜帶",
-                    "伴手禮與易碎品確認安全裝箱",
-                    "包車接送時間與地點最後確認"
-                ];
+                const checks = ["飯店退房確認 (Safe Box)","免稅收據收集","利木津巴士/包車確認","行李是否超重 (23kg x 2)"];
                 html = `
                     <div class="space-y-6 animation-fade-in">
                         <div class="bg-[#2C4F3E] text-white p-8 rounded-3xl">
-                            <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="plane-takeoff" class="w-8 h-8 text-[#C8A165]"></i> 回程清單</h2>
-                            <p class="text-base text-gray-300 mt-2">前往機場前的最後檢查作業</p>
+                            <h2 class="text-3xl font-black flex items-center gap-3"><i data-lucide="plane-takeoff" class="w-8 h-8 text-[#C8A165]"></i> 賦歸檢查</h2>
                         </div>
-                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-2">
+                        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-200 space-y-4">
                             ${checks.map(item => `
-                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0 cursor-pointer active:bg-gray-50 rounded-xl transition-colors">
-                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E] focus:ring-[#C8A165]" />
+                                <label class="flex items-center gap-5 p-4 border-b border-gray-100 last:border-0">
+                                    <input type="checkbox" class="w-6 h-6 rounded text-[#2C4F3E]" />
                                     <span class="text-xl text-gray-700 font-bold">${item}</span>
                                 </label>
                             `).join('')}
@@ -508,7 +383,7 @@
                                 <i data-lucide="arrow-left" class="w-5 h-5"></i> 返回列表
                             </button>
                             <div>
-                                <h2 class="text-4xl font-black text-[#2C4F3E] mt-2">${day.date.split(' ')[0]}</h2>
+                                <h2 class="text-4xl font-black text-[#2C4F3E] mt-2">${day.date}</h2>
                                 <p class="text-xl text-gray-500 font-bold mt-2">${day.title}</p>
                             </div>
                         </div>
@@ -524,13 +399,14 @@
                                             </span>
                                             <span class="text-sm bg-[#F9F7F2] text-[#2C4F3E] px-3 py-1 rounded-lg font-bold">${event.loc}</span>
                                         </div>
-                                        <h3 class="font-bold text-[#2C4F3E] text-2xl mb-2">
+                                        <h3 class="font-black text-[#2C4F3E] text-2xl mb-2 flex items-center">
                                             ${event.title}
+                                            ${event.isVp ? '<span class="vp-badge">VP</span>' : ''}
                                         </h3>
-                                        <p class="text-lg text-gray-600 font-medium leading-relaxed">${event.detail}</p>
-                                        <div class="mt-5 flex items-center gap-2 text-sm text-[#2C4F3E] bg-[#F9F7F2] px-4 py-3 rounded-xl w-fit font-bold">
-                                            <i data-lucide="car" class="w-5 h-5 text-[#C8A165]"></i> 
-                                            <span>交通方式：${event.trans}</span>
+                                        <p class="text-lg text-gray-600 font-bold leading-relaxed">${event.detail}</p>
+                                        <div class="mt-5 flex items-center gap-2 text-sm text-[#2C4F3E] bg-[#F9F7F2] px-4 py-3 rounded-xl w-fit font-black">
+                                            <i data-lucide="truck" class="w-5 h-5 text-[#C8A165]"></i> 
+                                            <span>${event.trans}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -545,10 +421,9 @@
         }
 
         function createIcon(type) {
-            const isSpot = type === 'spot';
             return L.divIcon({
                 className: 'custom-marker',
-                html: `<div class='pin ${isSpot ? 'pin-spot' : 'pin-food'}'></div><div class='pin-text'>${isSpot ? '景' : '食'}</div>`,
+                html: `<div class='pin ${type === 'spot' ? 'pin-spot' : 'pin-food'}'></div><div class='pin-text'>${type === 'spot' ? '景' : '食'}</div>`,
                 iconSize: [36, 36],
                 iconAnchor: [18, 36],
                 popupAnchor: [0, -36]
@@ -556,67 +431,35 @@
         }
 
         function loadMapDay(dayIdx) {
-            if (!itineraryData[dayIdx]) return;
             const data = itineraryData[dayIdx];
+            if (!data) return;
             
-            // 更新按鈕樣式
             document.querySelectorAll('button[id^="map-btn-"]').forEach(btn => {
-                btn.classList.remove('bg-[#2C4F3E]', 'text-white', 'border-transparent');
-                btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+                btn.className = "shrink-0 px-5 py-3 rounded-xl whitespace-nowrap text-base font-bold bg-white border border-gray-200 text-gray-600 transition-all";
             });
             const activeBtn = document.getElementById(`map-btn-${dayIdx}`);
-            if(activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-                activeBtn.classList.add('bg-[#2C4F3E]', 'text-white', 'border-transparent');
-            }
+            if(activeBtn) activeBtn.className = "shrink-0 px-5 py-3 rounded-xl whitespace-nowrap text-base font-bold bg-[#2C4F3E] text-white border-transparent transition-all shadow-md";
 
             if (!mapInstance) {
-                mapInstance = L.map('map-view');
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap'
-                }).addTo(mapInstance);
+                mapInstance = L.map('map-view').setView([35.6329, 139.8804], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
             } else {
-                // 清除現有標記
-                mapInstance.eachLayer((layer) => {
-                    if (layer instanceof L.Marker) {
-                        mapInstance.removeLayer(layer);
-                    }
-                });
+                mapInstance.eachLayer((layer) => { if (layer instanceof L.Marker) mapInstance.removeLayer(layer); });
             }
 
-            const bounds = L.latLngBounds();
-            let hasValidPoints = false;
+            const bounds = [];
+            data.events.forEach(e => {
+                if (e.lat) {
+                    L.marker([e.lat, e.lng], { icon: createIcon('spot') }).addTo(mapInstance).bindPopup(`<b class="text-lg">${e.title}</b><p>${e.detail}</p>`);
+                    bounds.push([e.lat, e.lng]);
+                }
+            });
+            if (data.restaurants) data.restaurants.forEach(r => {
+                L.marker([r.lat, r.lng], { icon: createIcon('food') }).addTo(mapInstance).bindPopup(`<b class="text-lg">${r.name}</b><p>${r.desc}</p>`);
+                bounds.push([r.lat, r.lng]);
+            });
 
-            // 標記景點
-            if (data.events && Array.isArray(data.events)) {
-                data.events.forEach(event => {
-                    if (event.lat && event.lng) {
-                        const marker = L.marker([event.lat, event.lng], { icon: createIcon('spot') }).addTo(mapInstance);
-                        marker.bindPopup(`<div class="text-lg font-bold text-[#2C4F3E] p-1">${event.title}</div><div class="text-sm text-gray-600 px-1 pb-1">${event.loc}</div>`);
-                        bounds.extend([event.lat, event.lng]);
-                        hasValidPoints = true;
-                    }
-                });
-            }
-
-            // 標記餐廳
-            if (data.restaurants && Array.isArray(data.restaurants)) {
-                data.restaurants.forEach(rest => {
-                    if (rest.lat && rest.lng) {
-                        const marker = L.marker([rest.lat, rest.lng], { icon: createIcon('food') }).addTo(mapInstance);
-                        marker.bindPopup(`<div class="text-lg font-bold text-[#C8A165] p-1">${rest.name}</div><div class="text-sm text-gray-600 px-1 pb-1">${rest.desc}</div>`);
-                        bounds.extend([rest.lat, rest.lng]);
-                        hasValidPoints = true;
-                    }
-                });
-            }
-
-            if (hasValidPoints && bounds.isValid()) {
-                mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
-            } else if (mapInstance) {
-                // 預設位置 (東京車站)
-                mapInstance.setView([35.6812, 139.7671], 11);
-            }
+            if (bounds.length > 0) mapInstance.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
         }
 
         function setActiveTab(tabId) {
@@ -629,115 +472,48 @@
         function openModal(dayIdx, eventIdx) {
             const event = itineraryData[dayIdx].events[eventIdx];
             const modalContainer = document.getElementById('modal-container');
-            
             modalContainer.innerHTML = `
                 <div class="bg-white rounded-[40px] w-full max-w-sm overflow-hidden shadow-2xl relative">
                     <div class="bg-[#2C4F3E] p-10 text-white">
-                        <button onclick="closeModal()" class="absolute top-6 right-6 bg-white/20 p-3 rounded-full leading-none w-10 h-10 flex items-center justify-center active:bg-white/40">✕</button>
+                        <button onclick="closeModal()" class="absolute top-6 right-6 bg-white/20 p-3 rounded-full leading-none">✕</button>
                         <span class="text-sm font-black opacity-80 uppercase flex items-center gap-2 mb-2"><i data-lucide="map-pin" class="w-5 h-5"></i> ${event.loc}</span>
-                        <h2 class="text-3xl font-bold mt-1 leading-tight">${event.title}</h2>
+                        <h2 class="text-3xl font-black mt-1 leading-tight">${event.title}</h2>
                     </div>
-                    
-                    <div class="p-10 space-y-8 max-h-[60vh] overflow-y-auto">
+                    <div class="p-10 space-y-8">
                         <div>
                             <h4 class="text-sm font-black text-gray-400 uppercase tracking-widest mb-3">行程重點</h4>
-                            <p class="text-xl text-gray-700 leading-relaxed font-medium">${event.detail}</p>
+                            <p class="text-xl text-gray-700 leading-relaxed font-black">${event.detail}</p>
                         </div>
-
                         <div class="pt-6 border-t border-gray-100">
                             <div class="flex items-center gap-3 text-lg font-black text-[#C8A165] mb-3">
-                                <i data-lucide="car" class="w-6 h-6"></i> 交通提醒
+                                <i data-lucide="truck" class="w-6 h-6"></i> 移動指南
                             </div>
-                            <div class="p-5 bg-[#F9F7F2] rounded-2xl text-lg font-bold text-[#2C4F3E] leading-relaxed">
-                                將使用 ${event.trans} 移動，請協助長輩留意腳步。
+                            <div class="p-5 bg-[#F9F7F2] rounded-2xl text-lg font-black text-[#2C4F3E]">
+                                交通方式：${event.trans}
                             </div>
                         </div>
-                    </div>
-
-                    <div class="p-8 bg-gray-50 border-t border-gray-100">
-                        <button onclick="closeModal()" class="w-full bg-[#2C4F3E] text-white py-5 rounded-3xl font-black text-xl tracking-widest shadow-xl active:scale-95 transition-transform">我知道了</button>
+                        <button onclick="closeModal()" class="w-full bg-[#2C4F3E] text-white py-5 rounded-3xl font-black text-xl tracking-widest shadow-xl">關閉詳情</button>
                     </div>
                 </div>
             `;
-            
             modalContainer.classList.remove('hidden');
             lucide.createIcons();
         }
 
         function closeModal() {
-            const modalContainer = document.getElementById('modal-container');
-            modalContainer.classList.add('hidden');
-            modalContainer.innerHTML = '';
+            document.getElementById('modal-container').classList.add('hidden');
         }
 
         function updateFamilyStatus() {
-            const now = new Date();
-            // 由於測試環境時間不確定，此處模擬為旅程中某個時間點以展示功能
-            // 實務上會使用真實時間比對行程
-            const mockNow = new Date('2026-06-04T10:30:00'); // 模擬在 6/4 早上
-            
-            const startDate = new Date('2026-06-03T00:00:00');
-            const endDate = new Date('2026-06-08T23:59:59');
-
+            const mockNow = new Date('2026-06-04T10:30:00'); // 模擬時間點
             const statusTextEl = document.getElementById('status-text');
             const statusTimeEl = document.getElementById('status-time');
             const statusIconEl = document.getElementById('status-icon');
 
-            // 確保元素存在
-            if (!statusTextEl || !statusTimeEl || !statusIconEl) return;
-
-            // 格式化目前時間顯示
-            const timeString = `${mockNow.getMonth() + 1}/${mockNow.getDate()} ${String(mockNow.getHours()).padStart(2, '0')}:${String(mockNow.getMinutes()).padStart(2, '0')}`;
-            statusTimeEl.innerText = `Status • ${timeString}`;
-
-            if (mockNow < startDate) {
-                statusTextEl.innerText = "期待出發中";
-                statusIconEl.setAttribute('data-lucide', 'calendar');
-                statusIconEl.classList.replace('text-[#C8A165]', 'text-[#3B82F6]');
-            } else if (mockNow > endDate) {
-                statusTextEl.innerText = "旅途平安結束";
-                statusIconEl.setAttribute('data-lucide', 'home');
-                statusIconEl.classList.replace('text-[#C8A165]', 'text-[#2C4F3E]');
-            } else {
-                // 簡易邏輯判斷當下狀態
-                const day = mockNow.getDate() - 3; // 0=6/3, 1=6/4...
-                const hour = mockNow.getHours();
-                
-                if (day === 0 && hour < 14) {
-                    statusTextEl.innerText = "準備搭機前往東京";
-                    statusIconEl.setAttribute('data-lucide', 'plane');
-                } else if (day === 0 && hour >= 14 && hour < 16) {
-                    statusTextEl.innerText = "包車前往飯店中";
-                    statusIconEl.setAttribute('data-lucide', 'car');
-                } else if (day === 5 && hour >= 13) {
-                    statusTextEl.innerText = "前往機場準備賦歸";
-                    statusIconEl.setAttribute('data-lucide', 'plane');
-                } else if (hour >= 21 || hour < 7) {
-                    statusTextEl.innerText = "飯店休息中";
-                    statusIconEl.setAttribute('data-lucide', 'moon');
-                } else {
-                    // 根據日期顯示不同樂園/景點狀態
-                    if (day === 1) {
-                        statusTextEl.innerText = "迪士尼樂園攻略中";
-                        statusIconEl.setAttribute('data-lucide', 'castle');
-                    } else if (day === 2) {
-                        statusTextEl.innerText = "迪士尼海洋暢玩中";
-                        statusIconEl.setAttribute('data-lucide', 'waves');
-                    } else if (day === 3) {
-                        if (hour < 14) statusTextEl.innerText = "海洋最後巡禮中";
-                        else statusTextEl.innerText = "淺草觀光中";
-                        statusIconEl.setAttribute('data-lucide', 'camera');
-                    } else if (day === 4) {
-                        statusTextEl.innerText = "東京地標巡禮中";
-                        statusIconEl.setAttribute('data-lucide', 'map-pin');
-                    } else {
-                        statusTextEl.innerText = "快樂旅途中";
-                        statusIconEl.setAttribute('data-lucide', 'heart');
-                    }
-                }
-            }
-            
-            // 重新初始化圖示
+            if (!statusTextEl) return;
+            statusTimeEl.innerText = `Status • 06/04 10:30`;
+            statusTextEl.innerText = "迪士尼樂園攻略中";
+            statusIconEl.setAttribute('data-lucide', 'castle');
             lucide.createIcons();
         }
 
@@ -745,13 +521,7 @@
             renderNav();
             renderContent();
             updateFamilyStatus();
-            
-            // 每分鐘更新一次狀態
-            setInterval(updateFamilyStatus, 60000);
-            
-            lucide.createIcons();
         };
-
     </script>
 </body>
 </html>
